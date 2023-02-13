@@ -60,7 +60,7 @@
 
 ### [ 01 ] Descripción del proyecto
 
-> Escribe una breve descripción que permita entender de que trata este proyecto
+> Mobile app designed to resolve and expedite the registration of structural damage caused by any type of disaster.
 
 ### [ 02 ] Requerimientos funcionales
 
@@ -85,8 +85,7 @@ Milestone | WK1 | WK2 | WK3 | WK4 | WK5 | WK6 | WK7 | WK8 | WK9 | WK10 | WK11 | 
 
 ### [ 05 ] Diseño de la UI
 
-> Incluye aquí un enlace a tu propuesta de diseño
-- https://www.figma.com/file/xDwMy3O4IaLTuQMRAF66OK/Damage-Control?node-id=37%3A3&t=oBb5TTVE5wumox7d-1
+> https://www.figma.com/file/xDwMy3O4IaLTuQMRAF66OK/Damage-Control?node-id=37%3A3&t=oBb5TTVE5wumox7d-1
 
 ### [ 07 ] Modelo de la base de datos
 
@@ -94,8 +93,7 @@ Milestone | WK1 | WK2 | WK3 | WK4 | WK5 | WK6 | WK7 | WK8 | WK9 | WK10 | WK11 | 
 
 ### [ 08 ] GitHub Planner
 
-> Incluye aquí un enlace a tu GitHub planner
-- https://github.com/orgs/BrightCoders-Institute/projects/33
+> https://github.com/orgs/BrightCoders-Institute/projects/33
 
 ## Definiciones
 
