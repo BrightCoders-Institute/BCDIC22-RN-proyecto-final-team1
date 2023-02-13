@@ -60,11 +60,23 @@
 
 ### [ 01 ] Descripción del proyecto
 
-> Mobile app designed to resolve and expedite the registration of structural damage caused by any type of disaster.
+> Escribe una breve descripción que permita entender de que trata este proyecto
 
 ### [ 02 ] Requerimientos funcionales
 
-> Registra los requerimientos funcionales considerados para este proyecto, para que no sea tan extenso, puedes dividirlo en [milestones](#definiciones). Por ejemplo: Milestone 1:  Formulario o pantalla para registro de nuevos usuarios. Milestone 2: Pantalla de inicio que muestra un registro de todos los proyectos. Milestone 3: CRUD  de proyectos. No es necesario describir aquí en detalle todas las tareas, sino más bien los módulos o milestones más generales.
+ - Allow new users to register:
+    - Registration data must be stored in firebase
+    - The registration form must include validations
+ - Allow registered users to log in:
+    - The user will be able to log in using email and password or his Google account.
+    - Login form must have validations
+ - Enable users to report damage to the system
+    - allow the user to make damage reports in his area
+    - Allow user to upload an image in the report
+    - the user must indicate on the marker the location of the area where the damage is located and also provide a brief description and a photo of the damage done.
+ - Allow the user to view the information recorded in the report
+    - The user will be able to see the reports he has made. 
+    - visualize all the information of the report made
 
 - Milestone 1. Configuración inicial del proyecto: Crear estructura base, directorios, agregar librerías...
 - Milestone 2. Título: Descripción
@@ -85,7 +97,8 @@ Milestone | WK1 | WK2 | WK3 | WK4 | WK5 | WK6 | WK7 | WK8 | WK9 | WK10 | WK11 | 
 
 ### [ 05 ] Diseño de la UI
 
-> https://www.figma.com/file/xDwMy3O4IaLTuQMRAF66OK/Damage-Control?node-id=37%3A3&t=oBb5TTVE5wumox7d-1
+> Incluye aquí un enlace a tu propuesta de diseño
+- https://www.figma.com/file/xDwMy3O4IaLTuQMRAF66OK/Damage-Control?node-id=37%3A3&t=oBb5TTVE5wumox7d-1
 
 ### [ 07 ] Modelo de la base de datos
 
@@ -93,7 +106,8 @@ Milestone | WK1 | WK2 | WK3 | WK4 | WK5 | WK6 | WK7 | WK8 | WK9 | WK10 | WK11 | 
 
 ### [ 08 ] GitHub Planner
 
-> https://github.com/orgs/BrightCoders-Institute/projects/33
+> Incluye aquí un enlace a tu GitHub planner
+- https://github.com/orgs/BrightCoders-Institute/projects/33
 
 ## Definiciones
 
