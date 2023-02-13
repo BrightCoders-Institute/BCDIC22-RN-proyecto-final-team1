@@ -78,9 +78,10 @@
     - The user will be able to see the reports he has made. 
     - visualize all the information of the report made
 
-- Milestone 1. Configuración inicial del proyecto: Crear estructura base, directorios, agregar librerías...
-- Milestone 2. Título: Descripción
-- Milestone 2. Título: Descripción
+- Milestone 1. Initial project setup: Create base structure, directories, add libraries
+- Milestone 2. Create the login and register screens: Screens will be created in which the user will be able to register and log in.
+- Milestone 3. user screens: create the user screens on which they can interact
+- Milestone 4. Admin screens: create the administrator screen to display the information of the reports made by users
 
 ### [ 03 ] Requerimientos no funcionales
 
