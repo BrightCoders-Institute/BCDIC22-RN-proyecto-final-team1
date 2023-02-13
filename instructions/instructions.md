@@ -85,7 +85,11 @@ Mobile app designed to resolve and expedite the registration of structural damag
 
 ### [ 03 ] Requerimientos no funcionales
 
-> Registra los aspectos no funcionales a considerar como tecnologías, calidad, etc.
+- Include unit tests
+- Can run on Android or iOs
+- use a standardized code style (reviewed by Eslint)
+- Object Oriented code
+- **A** score obtained in CodeClimate or equivalent
 
 ### [ 04 ] Plan de trabajo
 
