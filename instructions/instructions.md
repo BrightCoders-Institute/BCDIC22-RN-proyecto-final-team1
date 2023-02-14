@@ -65,23 +65,25 @@ Mobile app designed to resolve and expedite the registration of structural damag
 ### [ 02 ] Requerimientos funcionales
 
  - Allow new users to register:
-    - Registration data must be stored in firebase
-    - The registration form must include validations
+    - Registration data must be stored in firebase.
+    - The registration form must include validations.
  - Allow registered users to log in:
     - The user will be able to log in using email and password or his Google account.
-    - Login form must have validations
- - Enable users to report damage to the system
-    - allow the user to make damage reports in his area
-    - Allow user to upload an image in the report
-    - the user must indicate on the marker the location of the area where the damage is located and also provide a brief description and a photo of the damage done.
- - Allow the user to view the information recorded in the report
+    - Login form must have validations.
+ - Enable users to report damage to the system.
+    - allow the user to make damage reports in his area.
+    - Allow user to upload an image in the report.
+    - The user must indicate on the marker the location of the area where the damage is located and also provide a brief description and a photo of the damage done.
+ - Allow the user to view the information recorded in the report.
     - The user will be able to see the reports he has made. 
-    - visualize all the information of the report made
+    - Visualize all the information of the report made.
 
-- Milestone 1. Initial project setup: Create base structure, directories, add libraries
+- Milestone 1. Initial project setup: Create base structure, directories, add libraries.
 - Milestone 2. Create the login and register screens: Screens will be created in which the user will be able to register and log in.
-- Milestone 3. user screens: create the user screens on which they can interact
-- Milestone 4. Admin screens: create the administrator screen to display the information of the reports made by users
+- Milestone 3. User screens: create the user screens on which they can interact.
+- Milestone 4. Admin screens: create the administrator screen to display the information of the reports made by users.
+- Milestone 5. Google Maps SDK: integration of the google maps sdk to select locations on google maps.
+- Milestone 6. Firebase Database and Authentication: to create a database and enable authentications.
 
 ### [ 03 ] Requerimientos no funcionales
 
