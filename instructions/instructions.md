@@ -106,7 +106,7 @@ Milestone | WK1 | WK2 | WK3 | WK4 | WK5 | WK6 | WK7 | WK8 | WK9 | WK10 | WK11 | 
 
 ### [ 07 ] Modelo de la base de datos
 
-> Incluye aquí un enlace a tu modelo de base de datos
+- https://lucid.app/lucidchart/aa3c9598-17b1-4da9-8500-7de2042988da/edit?viewport_loc=-105%2C-76%2C2032%2C1232%2C0_0&invitationId=inv_605d3662-8182-4785-8f19-63ca2c748074
 
 ### [ 08 ] GitHub Planner
 
