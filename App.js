@@ -1,16 +1,22 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
-import MapView from "react-native-maps"
+import { TextInput } from 'react-native-paper';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <MapView style={styles.map} initialRegion={{
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }} />
+      <TextInput
+        label="Correo"
+        placeholder="Correo Electronico"
+        mode="outlined"
+        width={300}
+      />
+      <TextInput
+        label="Contraseña"
+        placeholder="contraseña"
+        mode="outlined"
+        width={300}
+      />
     </View>
   );
 }
@@ -21,9 +27,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-  },
+  }
 });
