@@ -1,23 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 import { TextInput } from 'react-native-paper';
+import StartupScreen from "./src/views/StartupScreen";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <TextInput
-        label="Correo"
-        placeholder="Correo Electronico"
-        mode="outlined"
-        width={300}
-      />
-      <TextInput
-        label="Contraseña"
-        placeholder="contraseña"
-        mode="outlined"
-        width={300}
-      />
-    </View>
+    <StartupScreen />
   );
 }
 
