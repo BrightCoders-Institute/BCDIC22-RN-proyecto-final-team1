@@ -1,0 +1,29 @@
+import { Text, View, Image } from "react-native";
+import React, { Component } from "react";
+import ButtonBlue from "../components/ButtonBlue";
+import ButtonWhite from "../components/ButtonWhite";
+import { StartupStyle } from "../themes/StartupStyle";
+
+export class StartupScreen extends Component {
+  render() {
+    return (
+      <View style={StartupStyle.StartupScreen}>
+        <View>
+          <Image
+            source={require("../../img/damageControl.png")}
+            style={StartupStyle.Image}
+          />
+          <Text style={StartupStyle.Text}>Damage Control</Text>
+        </View>
+        <View style={StartupStyle.ButtonContainer}>
+          <ButtonBlue Text="Iniciar sesion" />
+          <View style={StartupStyle.Buttonspace}>
+            <ButtonWhite Text="Registrarse" />
+          </View>
+        </View>
+      </View>
+    );
+  }
+}
+
+export default StartupScreen;
