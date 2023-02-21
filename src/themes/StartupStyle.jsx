@@ -1,7 +1,9 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
+import { FWEIGHT } from "./fweight";
 
 export const StartupStyle = StyleSheet.create({
-  StartupScreen: { width: "100%", height: "100%", backgroundColor: "#100F1F" },
+  StartupScreen: { width: "100%", height: "100%", backgroundColor: COLORS.DARK_BLUE },
   Image: {
     width: 200,
     height: 200,
@@ -12,8 +14,8 @@ export const StartupStyle = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
     fontSize: 40,
-    fontWeight: "600",
-    color: "white",
+    fontWeight: FWEIGHT.BOLD,
+    color: COLORS.WHITE,
   },
   ButtonContainer: {
     marginTop: 200,
