@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
 
-export const RegisterStyle = StyleSheet.create({
+export const SignUpStyle = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: '#100F1F'
+        backgroundColor: COLORS.DARK_BLUE
     },
     scroll: {
         marginTop: 80,
@@ -11,12 +12,12 @@ export const RegisterStyle = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        color: '#7ECCE4',
+        color: COLORS.LIGHT_BLUE,
         fontSize: 25,
         marginBottom: 20
     },
     input: {
-        backgroundColor: '#100F1F',
+        backgroundColor: COLORS.DARK_BLUE,
         marginVertical:10
     },
     button: {
