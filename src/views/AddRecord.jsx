@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import Headimg from "../components/Headimg";
-import { ImgHead } from "../themes/Urls";
-
+import { imgHea, cardImg } from "../themes/Urls";
+import Cards from "../components/Cards";
 
 export class AddRecord extends Component {
   render() {
     return (
       <View>
-        <Headimg
-          Text="Registro de Daños"
-          ImgUrl={ImgHead}
-        />
+        <Cards img={cardImg} />
       </View>
     );
   }
