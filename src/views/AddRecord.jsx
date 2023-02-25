@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import Headimg from "../components/Headimg";
-import { imgHea, cardImg } from "../themes/Urls";
+import { cardImg } from "../themes/Urls";
 import Cards from "../components/Cards";
 
 export class AddRecord extends Component {
