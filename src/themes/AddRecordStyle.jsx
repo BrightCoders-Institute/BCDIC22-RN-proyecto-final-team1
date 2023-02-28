@@ -1,0 +1,46 @@
+import { StyleSheet } from "react-native";
+import { COLORS } from "./colors";
+import { FWEIGHT } from "./fweight";
+
+export const AddRecordStyle = StyleSheet.create({
+  scroll: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: COLORS.DARK_BLUE,
+  },
+  view: { alignSelf: "center" },
+  textInput: {
+    width: 350,
+    height: 150,
+    backgroundColor: COLORS.DARK_BLUE,
+    color: COLORS.WHITE,
+    marginTop: 15,
+  },
+  addImage: {
+    width: 350,
+    height: 150,
+    backgroundColor: COLORS.DARK_BLUE,
+    marginTop: 20,
+    borderRadius: 3,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: COLORS.WHITE,
+  },
+  text: { color: COLORS.WHITE },
+  viewUbi: { display: "flex", flexDirection: "row", alignItems: "center" },
+  textUbi: { color: COLORS.WHITE, marginTop: 20, fontSize: 21 },
+  divider: {
+    backgroundColor: COLORS.WHITE,
+    marginTop: 30,
+    height: 1,
+    width: 260,
+    marginLeft: 10,
+  },
+  map: {
+    width: 350,
+    height: 200,
+    marginTop: 20,
+    borderRadius: 5,
+  },
+});
