@@ -7,6 +7,7 @@ import { COLORS } from "../themes/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import MapView from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
+
 export class AddRecord extends Component {
   render() {
     return (
