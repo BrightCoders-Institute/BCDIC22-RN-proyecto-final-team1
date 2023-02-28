@@ -13,7 +13,11 @@ export const HeadCompStyle = StyleSheet.create({
     position: "absolute",
     top: 100,
     color: COLORS.WHITE,
-    fontSize: 35,
+    fontSize: 50,
     fontWeight: FWEIGHT.BOLD,
+    textalign: "center",
+    textShadowColor: "#000",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
 });
