@@ -6,7 +6,7 @@ export const AddRecordStyle = StyleSheet.create({
   scroll: {
     width: "100%",
     height: "100%",
-    backgroundColor: COLORS.DARK_BLUE,
+    backgroundColor: COLORS.DARK_BLUE
   },
   view: { alignSelf: "center" },
   textInput: {
@@ -28,13 +28,13 @@ export const AddRecordStyle = StyleSheet.create({
     borderColor: COLORS.WHITE,
   },
   text: { color: COLORS.WHITE },
-  viewUbi: { display: "flex", flexDirection: "row", alignItems: "center" },
+  viewUbi: { display: "flex", flexDirection: "row", alignContent: "center" },
   textUbi: { color: COLORS.WHITE, marginTop: 20, fontSize: 21 },
   divider: {
     backgroundColor: COLORS.WHITE,
-    marginTop: 30,
+    marginTop: 40,
     height: 1,
-    width: 260,
+    width: "67%",
     marginLeft: 10,
   },
   map: {
@@ -42,5 +42,6 @@ export const AddRecordStyle = StyleSheet.create({
     height: 200,
     marginTop: 20,
     borderRadius: 5,
+    marginBottom: 20,
   },
 });

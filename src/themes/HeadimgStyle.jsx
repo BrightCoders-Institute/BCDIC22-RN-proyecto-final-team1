@@ -11,7 +11,7 @@ export const HeadCompStyle = StyleSheet.create({
   Text: {
     alignSelf: "center",
     position: "absolute",
-    top: 100,
+    top: 80,
     color: COLORS.WHITE,
     fontSize: 50,
     fontWeight: FWEIGHT.BOLD,
