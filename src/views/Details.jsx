@@ -30,6 +30,7 @@ export class Details extends Component {
                   name="chevron-left"
                   size={60}
                   color={COLORS.WHITE}
+                  onPress={() => this.props.navigation.goBack()}
                 />
               </TouchableOpacity>
             </View>

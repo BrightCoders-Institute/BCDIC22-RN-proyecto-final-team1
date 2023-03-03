@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import { COLORS } from "../themes/colors";
 import { CardStyle } from "../themes/CardStyle";
 import { imgCard } from "../themes/Urls";
@@ -7,7 +7,7 @@ import { imgCard } from "../themes/Urls";
 export class Cards extends Component {
   render() {
     return (
-      <View style={CardStyle.bottomCard}>
+      <TouchableOpacity style={CardStyle.bottomCard} onPress={this.props.onPress}>
         <View style={CardStyle.topView}>
           <Image
             source={{ uri: this.props.img }}
@@ -20,7 +20,7 @@ export class Cards extends Component {
             </Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
