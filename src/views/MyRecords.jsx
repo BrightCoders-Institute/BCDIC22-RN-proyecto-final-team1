@@ -13,10 +13,10 @@ export class MyRecords extends Component {
           <Headimg ImgUrl={imgHeadMyRecords} Text={`Mis Registros`} />
         </View>
         <ScrollView style={MyRecordStyle.scrollView}>
-          <Cards img={cardImg} />
-          <Cards img={cardImg} />
-          <Cards img={cardImg} />
-          <Cards img={cardImg} />
+          <Cards img={cardImg} onPress={() => {this.props.navigation.navigate("Details")}} />
+          <Cards img={cardImg} onPress={() => {this.props.navigation.navigate("Details")}}/>
+          <Cards img={cardImg} onPress={() => {this.props.navigation.navigate("Details")}}/>
+          <Cards img={cardImg} onPress={() => {this.props.navigation.navigate("Details")}}/>
         </ScrollView>
       </View>
     );

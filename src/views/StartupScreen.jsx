@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import ButtonBlue from "../components/ButtonBlue";
 import ButtonWhite from "../components/ButtonWhite";
 import { StartupStyle } from "../themes/StartupStyle";
+import { navigate } from './../../node_modules/@react-navigation/routers/src/CommonActions';
 
 export class StartupScreen extends Component {
   render() {
@@ -16,9 +17,9 @@ export class StartupScreen extends Component {
           <Text style={StartupStyle.Text}>Damage Control</Text>
         </View>
         <View style={StartupStyle.ButtonContainer}>
-          <ButtonBlue Text="Iniciar sesion" />
+          <ButtonBlue Text="Iniciar sesion" onPress={() => {this.props.navigation.navigate("Login")}}/>
           <View style={StartupStyle.Buttonspace}>
-            <ButtonWhite Text="Registrarse" />
+            <ButtonWhite Text="Registrarse" onPress={() => {this.props.navigation.navigate("SignUpScreen")}}/>
           </View>
         </View>
       </View>

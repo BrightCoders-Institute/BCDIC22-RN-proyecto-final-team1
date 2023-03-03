@@ -18,7 +18,7 @@ export class LoginScreen extends Component {
           />
           <TextInputHandle label="Contraseña" placeholder="Contraseña" />
           <View View style={LoginScreenStyle.buttonSession}>
-            <ButtonBlue Text="Iniciar sesion" />
+            <ButtonBlue Text="Iniciar sesion" onPress={() => {this.props.navigation.navigate("MyDrawer")}}/>
           </View>
         </View>
       </View>

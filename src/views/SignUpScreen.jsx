@@ -4,7 +4,7 @@ import { SignUpStyle } from "../themes/SignUpStyle";
 import ButtonBlue from "../components/ButtonBlue";
 import TextInputHandle from "../components/TextInputHandle";
 
-const SignUpScreen = () => {
+const SignUpScreen = (props) => {
   return (
     <View style={SignUpStyle.container}>
       <ScrollView style={SignUpStyle.scroll}>
@@ -35,7 +35,7 @@ const SignUpScreen = () => {
         />
 
         <View style={SignUpStyle.button}>
-          <ButtonBlue Text="Crear Cuenta" />
+          <ButtonBlue Text="Crear Cuenta" onPress={() => {props.navigation.navigate("Login")}}/>
         </View>
       </ScrollView>
     </View>
