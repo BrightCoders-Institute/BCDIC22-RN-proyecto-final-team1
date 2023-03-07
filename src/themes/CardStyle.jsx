@@ -4,7 +4,7 @@ import { FWEIGHT } from "./fweight";
 
 export const CardStyle = StyleSheet.create({
   topView: { width: 340, height: 200, marginLeft: 25 },
-  bottomCard: {marginBottom:170},
+  bottomCard: { marginBottom: 170 },
   bottomView: {
     backgroundColor: COLORS.PURPLE,
     width: "100%",
