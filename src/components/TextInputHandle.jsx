@@ -1,11 +1,13 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "react-native-paper";
 import { COLORS } from "../themes/colors";
 import { SignUpStyle } from "../themes/SignUpStyle";
 
 const TextInputHandle = (props) => {
-  const { label, placeholder } = props;
+  const { label, placeholder, onChangeText, keylabel } = props;
+  //onst [text, setText] = useState('');
+
   return (
     <TextInput
       mode="outlined"
@@ -16,6 +18,7 @@ const TextInputHandle = (props) => {
       style={SignUpStyle.input}
       textColor={COLORS.WHITE}
       placeholderTextColor={COLORS.WHITE}
+      onChangeText={(text) => onChangeText(text, keylabel)}
     />
   );
 };
