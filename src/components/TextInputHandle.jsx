@@ -6,7 +6,6 @@ import { SignUpStyle } from "../themes/SignUpStyle";
 
 const TextInputHandle = (props) => {
   const { label, placeholder, onChangeText, keylabel } = props;
-  //onst [text, setText] = useState('');
 
   return (
     <TextInput
