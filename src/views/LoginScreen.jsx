@@ -1,11 +1,10 @@
 import { Text, View } from "react-native";
 import React, { Component } from "react";
 import ButtonBlue from "../components/ButtonBlue";
-import { TextInput } from "react-native-paper";
 import { LoginScreenStyle } from "../themes/LoginStyle";
-import { COLORS } from "../themes/colors";
 import TextInputHandle from "../components/TextInputHandle";
 import TextInputPass from "../components/TextInputPass";
+import { signInWithEmailAndPassword } from "firebase/auth";
 export class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,12 +18,35 @@ export class LoginScreen extends Component {
 
   handleInputChangeMail(value) {
     this.setState({ inputValueMail: value });
-    console.log(value);
   }
 
   handleInputChangePassword(value) {
     this.setState({ inputValuePassword: value });
-    console.log(value);
+  }
+
+  signIn() {
+    signInWithEmailAndPassword(
+      auth,
+      this.state.inputValueMail,
+      this.state.inputValuePassword
+    )
+      .then((res) => {
+        this.props.navigation.navigate("MyDrawer");
+        this.setState({ inputValueMail: "", inputValuePassword: "" });
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/user-not-found":
+            Alert.alert("Email no registrado");
+            break;
+          case "auth/wrong-password":
+            Alert.alert("Contrasena Incorrecta");
+            break;
+          default:
+            Alert.alert("Email o contrasena invalida");
+            break;
+        }
+      });
   }
 
   render() {
