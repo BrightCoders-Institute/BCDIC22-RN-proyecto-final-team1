@@ -6,10 +6,7 @@ import {
 import { getFirestore, setDoc, doc } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { firebaseConfig } from "../../Firebase.config";
-import { FIREBASE_API_KEY } from "@env";
 
-console.log(FIREBASE_API_KEY);
-console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 
 export const auth = initializeAuth(app, {
