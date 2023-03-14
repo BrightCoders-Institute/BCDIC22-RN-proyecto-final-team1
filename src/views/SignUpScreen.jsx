@@ -1,10 +1,12 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Alert } from "react-native";
 import { React, Component } from "react";
 import { SignUpStyle } from "../themes/SignUpStyle";
 import ButtonBlue from "../components/ButtonBlue";
 import TextInputHandle from "../components/TextInputHandle";
 import TextInputPass from "../components/TextInputPass";
 import { TextInput } from "react-native-paper";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createProfile, auth } from "../api/firebase";
 
 export class SignUpScreen extends Component {
   constructor(props) {
@@ -20,7 +22,6 @@ export class SignUpScreen extends Component {
   }
 
   handleInputChange(value, key) {
-    console.log(key);
     this.setState((prevState) => {
       return {
         ...prevState,
@@ -28,6 +29,43 @@ export class SignUpScreen extends Component {
       };
     });
   }
+
+  createUser = () => {
+    if (
+      this.state.inputValueMail === "" &&
+      this.state.inputValuePassword === ""
+    ) {
+      Alert.alert("Ingresar todos los datos necesarios!");
+    }
+    createUserWithEmailAndPassword(
+      auth,
+      this.state.inputValueMail,
+      this.state.inputValuePassword
+    )
+      .then(async (res) => {
+        console.log(res);
+        await createProfile(
+          res.user.uid,
+          this.state.inputValueMail,
+          this.state.inputValueName,
+          this.state.inputValueHood,
+          this.state.inputValueCp
+        );
+        Alert.alert("Cuenta creada exitosamente");
+        this.props.navigation.navigate("Login");
+        console.log(res);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            Alert.alert('Email en uso');
+            break;
+          default:
+            Alert.alert('Email o contrasena invalida');
+            break;
+        }
+      });
+  };
 
   render() {
     return (
@@ -69,12 +107,7 @@ export class SignUpScreen extends Component {
             onChangeText={this.handleInputChange}
           />
           <View style={SignUpStyle.button}>
-            <ButtonBlue
-              Text="Crear Cuenta"
-              onPress={() => {
-                this.props.navigation.navigate("Login");
-              }}
-            />
+            <ButtonBlue Text="Crear Cuenta" onPress={this.createUser} />
           </View>
         </ScrollView>
       </View>
