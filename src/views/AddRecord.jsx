@@ -13,11 +13,9 @@ export class AddRecord extends Component {
   state = {
     markerLocation: null,
   };
-
   handleMapPress = (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     this.setState({ markerLocation: { latitude, longitude } });
-    console.log("makern", this.state.markerLocation);
   };
   render() {
     const { markerLocation } = this.state;
