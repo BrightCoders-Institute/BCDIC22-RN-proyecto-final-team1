@@ -5,7 +5,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import AddRecord from "../views/AddRecord";
 import MyRecords from "../views/MyRecords";
 import { NavigationContainer } from "@react-navigation/native";
@@ -18,12 +18,37 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, Image, Text } from "react-native";
 import { indexStyle } from "../themes/IndexStyle";
 import { COLORS } from "../themes/colors";
+import {auth, dataUser} from '../api/firebase'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 const Stack = createStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props) {
+
+  const [infodata, setInfodata] = useState('');
+
+  useEffect(() => {
+    dataUser()
+    .then(async() =>{
+      await get()
+    });;
+    
+  }, [])
+
+  const get = async() => {
+    const val = await AsyncStorage.getItem('name')
+    setInfodata(val);
+  }
+
+  const signOut = async() => {
+    await auth.signOut();
+    props.navigation.replace("Login")
+
+  }
   return (
     <DrawerContentScrollView {...props}>
       <View style={indexStyle.containerHeader}>
@@ -34,7 +59,7 @@ function CustomDrawerContent(props) {
           />
           <Text style={indexStyle.textLogo}>Damage Control</Text>
         </View>
-        <Text style={indexStyle.textUser}>Usuario{"\n"}example@gmail.com</Text>
+        <Text style={indexStyle.textUser}>{infodata}{"\n"}{auth.currentUser.email}</Text>
       </View>
       <View style={indexStyle.containerDrawer}>
         <DrawerItemList {...props} />
@@ -42,7 +67,7 @@ function CustomDrawerContent(props) {
           <DrawerItem
             label="Cerrar sesión"
             labelStyle={indexStyle.drawerText}
-            onPress={() => props.navigation.navigate("Login")}
+            onPress={signOut}
             icon={({ focused, size }) => (
               <MaterialCommunityIcons
                 name="logout"
