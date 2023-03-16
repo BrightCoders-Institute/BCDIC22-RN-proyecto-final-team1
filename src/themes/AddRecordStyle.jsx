@@ -44,4 +44,12 @@ export const AddRecordStyle = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
   },
+  UploadImgContainer: {
+    width: 350,
+    height: 300,
+    top:10
+  },
+  UploadImg:{ 
+    width: "100%", 
+    height: "100%"}
 });

@@ -72,9 +72,9 @@ export class AddRecord extends Component {
               />
               <Text style={AddRecordStyle.text}>Inserte una imagen</Text>
             </TouchableOpacity>
-            <View style={{width: 350, height: 300,top:10}}>
-              {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-              {image && <Image source={{ uri: image }} style={{ width: "100%", height: "100%"}} />}
+            <View style={AddRecordStyle.UploadImgContainer}>
+              {isLoading && <ActivityIndicator size="large" color={COLORS.loaderColor} />}
+              {image && <Image source={{ uri: image }} style={AddRecordStyle.UploadImg} />}
             </View>
             <View style={AddRecordStyle.viewUbi}>
               <Text style={AddRecordStyle.textUbi}>Ubicación</Text>
