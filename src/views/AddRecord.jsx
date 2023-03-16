@@ -8,6 +8,28 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
 import { mapDark } from "../themes/MapStyle";
+import ImagePicker from 'react-native-image-picker';
+
+
+function seleccionarImagen() {
+  const options = {
+    title: 'Seleccionar imagen',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
+  ImagePicker.showImagePicker(options, (response) => {
+    if (response.didCancel) {
+      console.log('El usuario canceló la selección de imagen');
+    } else if (response.error) {
+      console.log('Error al seleccionar la imagen:', response.error);
+    } else {
+      console.log(response.uri);
+    }
+  });
+}
 
 export class AddRecord extends Component {
   state = {
@@ -17,6 +39,8 @@ export class AddRecord extends Component {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     this.setState({ markerLocation: { latitude, longitude } });
   };
+
+  
   render() {
     const { markerLocation } = this.state;
     return (
@@ -33,7 +57,7 @@ export class AddRecord extends Component {
               textColor={COLORS.WHITE}
               placeholderTextColor={COLORS.WHITE}
             />
-            <TouchableOpacity style={AddRecordStyle.addImage}>
+            <TouchableOpacity onPress={seleccionarImagen} style={AddRecordStyle.addImage}>
               <MaterialIcons
                 name="add-a-photo"
                 size={50}
