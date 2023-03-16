@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, ScrollView, TouchableOpacity, Button, Image, View, Platform, ActivityIndicator} from "react-native";
 import Headimg from "../components/Headimg";
 import { imgHead } from "../themes/Urls";
 import { TextInput, Divider } from "react-native-paper";
@@ -8,30 +8,36 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
 import { mapDark } from "../themes/MapStyle";
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 
-function seleccionarImagen() {
-  const options = {
-    title: 'Seleccionar imagen',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
-
-  ImagePicker.showImagePicker(options, (response) => {
-    if (response.didCancel) {
-      console.log('El usuario canceló la selección de imagen');
-    } else if (response.error) {
-      console.log('Error al seleccionar la imagen:', response.error);
-    } else {
-      console.log(response.uri);
-    }
-  });
-}
 
 export class AddRecord extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: null,
+      isLoading: false
+    };
+  }
+
+  pickImage = async () => {
+    this.setState({ isLoading: true });
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.assets[0].uri });
+    }
+    this.setState({ isLoading: false });
+  };
+
   state = {
     markerLocation: null,
   };
@@ -43,6 +49,7 @@ export class AddRecord extends Component {
   
   render() {
     const { markerLocation } = this.state;
+    const { image, isLoading } = this.state;
     return (
       <View>
         <ScrollView style={AddRecordStyle.scroll}>
@@ -57,7 +64,7 @@ export class AddRecord extends Component {
               textColor={COLORS.WHITE}
               placeholderTextColor={COLORS.WHITE}
             />
-            <TouchableOpacity onPress={seleccionarImagen} style={AddRecordStyle.addImage}>
+            <TouchableOpacity onPress={this.pickImage} style={AddRecordStyle.addImage}>
               <MaterialIcons
                 name="add-a-photo"
                 size={50}
@@ -65,6 +72,10 @@ export class AddRecord extends Component {
               />
               <Text style={AddRecordStyle.text}>Inserte una imagen</Text>
             </TouchableOpacity>
+            <View style={{width: 350, height: 300,top:10}}>
+              {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
+              {image && <Image source={{ uri: image }} style={{ width: "100%", height: "100%"}} />}
+            </View>
             <View style={AddRecordStyle.viewUbi}>
               <Text style={AddRecordStyle.textUbi}>Ubicación</Text>
               <Divider style={AddRecordStyle.divider} />

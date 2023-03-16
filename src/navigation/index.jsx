@@ -18,6 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, Image, Text } from "react-native";
 import { indexStyle } from "../themes/IndexStyle";
 import { COLORS } from "../themes/colors";
+import Uploadimg from "../views/UploadImg";
 
 const Stack = createStackNavigator();
 
