@@ -9,6 +9,29 @@ export const Button = StyleSheet.create({
     backgroundColor: COLORS.LIGHT_BLUE,
     borderRadius: 10,
   },
+  ButtonGreen: {
+    width: 200,
+    height: 60,
+    backgroundColor: COLORS.GREEN,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    alignContent: "center",
+  },
+  ButtonGreenText: {
+    alignSelf: "center",
+    fontSize: 20,
+    fontWeight: FWEIGHT.BOLD,
+    color: COLORS.WHITE,
+  },
+  ButtonGreenContainer: {
+    alignSelf: "center",
+    bottom: 80,
+  },
+  ButtonGreenStyleIcon: {
+    bottom: 10,
+  },
   textWhite: {
     alignSelf: "center",
     marginTop: 10,
