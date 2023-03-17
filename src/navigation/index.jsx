@@ -76,7 +76,7 @@ function MyDrawer() {
     >
       <Drawer.Screen
         name="Crear reportes"
-        component={AddRecord}
+        component={Uploadimg}
         options={{
           drawerIcon: ({ focused, size }) => (
             <MaterialCommunityIcons

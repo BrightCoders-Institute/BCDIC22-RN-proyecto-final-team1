@@ -1,41 +1,86 @@
-import React, { Component } from 'react';
-import { Button, Image, View, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from "react-native";
+import React, { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
+import {firebaseConfig} from '../../Firebase.config';
 
-export default class Uploadimg extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: null,
-      isLoading: false
-    };
-  }
+const Uploadimg = () => {
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
-  pickImage = async () => {
-    this.setState({ isLoading: true });
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.assets[0].uri });
-    }
-    this.setState({ isLoading: false });
+    const source = { uri: result.uri};
+    console.log(source);
+    setImage(source);
   };
 
-  render() {
-    const { image, isLoading } = this.state;
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button title="Pick an image from camera roll" onPress={this.pickImage} />
-        {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-        {image && <Image source={{ uri: image }} style={{ width: "100%", height: 300 }} />}
-      </View>
+  const uploadImage = async () => {
+    setUploading(true);
+    const response = await fetch(image.uri);
+    const blob = await response.blob();
+    const filename = image.uri.substring(image.uri.lastIndexOf('/') + 1);
+    var ref = firebaseConfig.storage().ref().child(filename).put(blob);
+
+    try {
+      await ref;
+    } catch (e) {
+      console.error(e);
+    }
+    setUploading(false);
+    Alert.alert(
+      'Image uploaded!',
     );
-  }
+    setImage(null);
+  };
+  
+  return (
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
+        <Text style={styles.buttonText}>Select Image</Text>
+      </TouchableOpacity>
+      <View style={styles.imageContainer}> 
+        {image && <Image source={{ uri: image.uri }} style={{width:300 , height:300}} />}
+        <TouchableOpacity style={styles.uploadButton} onPress={uploadImage}>
+          <Text style={styles.buttonText}>Upload Image</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  )
 }
+
+export default Uploadimg;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectButton: {
+    backgroundColor: '#009688',
+    padding: 10,
+    borderRadius: 5,
+  },
+  uploadButton: {
+    backgroundColor: '#009688',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 20,
+  },
+  imageContainer: {
+    marginTop: 30,
+    width: '100%',
+    alignItems: 'center',
+  },
+});
+
+
