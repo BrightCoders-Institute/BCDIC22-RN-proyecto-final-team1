@@ -1,10 +1,11 @@
-import { Text, View } from "react-native";
+import { Text, View, Alert } from "react-native";
 import React, { Component } from "react";
 import ButtonBlue from "../components/ButtonBlue";
 import { LoginScreenStyle } from "../themes/LoginStyle";
 import TextInputHandle from "../components/TextInputHandle";
 import TextInputPass from "../components/TextInputPass";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../api/firebase'
 export class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -17,14 +18,15 @@ export class LoginScreen extends Component {
   }
 
   handleInputChangeMail(value) {
-    this.setState({ inputValueMail: value });
+    this.setState({...this.props.state, inputValueMail: value });
   }
 
   handleInputChangePassword(value) {
-    this.setState({ inputValuePassword: value });
+    this.setState({...this.props.state, inputValuePassword: value });
   }
 
   signIn() {
+    console.log(this.state)
     signInWithEmailAndPassword(
       auth,
       this.state.inputValueMail,
@@ -68,9 +70,7 @@ export class LoginScreen extends Component {
           <View View style={LoginScreenStyle.buttonSession}>
             <ButtonBlue
               Text="Iniciar sesion"
-              onPress={() => {
-                this.props.navigation.navigate("MyDrawer");
-              }}
+              onPress={() => this.signIn()}
             />
           </View>
         </View>
