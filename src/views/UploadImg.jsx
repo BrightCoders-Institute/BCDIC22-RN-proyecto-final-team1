@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import {firebaseConfig} from '../../Firebase.config';
+import { auth, storage} from '../api/firebase'
+import {ref, uploadBytes} from 'firebase/storage'
 
 const Uploadimg = () => {
   const [image, setImage] = useState(null);
@@ -14,7 +15,7 @@ const Uploadimg = () => {
       aspect: [4, 3],
       quality: 1,
     });
-    const source = { uri: result.uri};
+    const source = { uri: result.assets[0].uri};
     console.log(source);
     setImage(source);
   };
@@ -23,11 +24,14 @@ const Uploadimg = () => {
     setUploading(true);
     const response = await fetch(image.uri);
     const blob = await response.blob();
-    const filename = image.uri.substring(image.uri.lastIndexOf('/') + 1);
-    var ref = firebaseConfig.storage().ref().child(filename).put(blob);
+    const refImage = ref(storage, `${auth.currentUser.uid}/hay-mi-madre-el-bicho`);
+          
 
     try {
-      await ref;
+      uploadBytes(refImage, blob)
+      .then((snapshot) => {
+        console.log('sube', snapshot);
+      })
     } catch (e) {
       console.error(e);
     }
