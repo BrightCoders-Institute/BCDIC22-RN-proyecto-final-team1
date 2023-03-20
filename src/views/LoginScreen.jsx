@@ -5,38 +5,42 @@ import { LoginScreenStyle } from "../themes/LoginStyle";
 import TextInputHandle from "../components/TextInputHandle";
 import TextInputPass from "../components/TextInputPass";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../api/firebase'
+import { auth } from "../api/firebase";
+import { Formik } from "formik";
 export class LoginScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValueMail: "",
-      inputValuePassword: "",
+      formikProps: {
+        email: "",
+        password: "",
+      },
     };
     this.handleInputChangeMail = this.handleInputChangeMail.bind(this);
     this.handleInputChangePassword = this.handleInputChangePassword.bind(this);
   }
 
-  handleInputChangeMail(value) {
-    this.setState({...this.props.state, inputValueMail: value });
+  handleInputChangeMail(formikProps, text) {
+    formikProps.setFieldValue("email", text);
   }
 
-  handleInputChangePassword(value) {
-    this.setState({...this.props.state, inputValuePassword: value });
+  handleInputChangePassword(formikProps, text) {
+    formikProps.setFieldValue("password", text);
   }
 
-  signIn() {
-    console.log(this.state)
+  signIn(formikProps) {
+    console.log(formikProps.values);
     signInWithEmailAndPassword(
       auth,
-      this.state.inputValueMail,
-      this.state.inputValuePassword
+      formikProps.values.email,
+      formikProps.values.password
     )
       .then((res) => {
         this.props.navigation.navigate("MyDrawer");
-        this.setState({ inputValueMail: "", inputValuePassword: "" });
+        formikProps.resetForm();
       })
       .catch((error) => {
+        console.log(error);
         switch (error.code) {
           case "auth/user-not-found":
             Alert.alert("Email no registrado");
@@ -55,25 +59,44 @@ export class LoginScreen extends Component {
     return (
       <View style={LoginScreenStyle.LoginStyle}>
         <Text style={LoginScreenStyle.Text}>Iniciar Sesión</Text>
-        <View style={LoginScreenStyle.LoginContainer}>
-          <TextInputHandle
-            label="Correo electronico"
-            placeholder="example@gmail.com"
-            onChangeText={this.handleInputChangeMail}
-          />
-          <TextInputPass
-            label="Contraseña"
-            placeholder="Contraseña"
-            keylabel="inputValuePassword"
-            onChangeText={this.handleInputChangePassword}
-          />
-          <View View style={LoginScreenStyle.buttonSession}>
-            <ButtonBlue
-              Text="Iniciar sesion"
-              onPress={() => this.signIn()}
-            />
-          </View>
-        </View>
+        <Formik
+          initialValues={this.state.formikProps}
+          onSubmit={(values, formikHelpers) => {
+            console.log(values);
+            formikHelpers.resetForm();
+          }}
+        >
+          {(formikProps) => (
+            <View style={LoginScreenStyle.LoginContainer}>
+              <TextInputHandle
+                label="Correo electronico"
+                placeholder="example@gmail.com"
+                onChangeText={(text) =>
+                  this.handleInputChangeMail(formikProps, text)
+                }
+                value={formikProps.values.email}
+              />
+              <TextInputPass
+                label="Contraseña"
+                placeholder="Contraseña"
+                keylabel="inputValuePassword"
+                onChangeText={(text) =>
+                  this.handleInputChangePassword(formikProps, text)
+                }
+                value={formikProps.values.password}
+              />
+              <View View style={LoginScreenStyle.buttonSession}>
+                <ButtonBlue
+                  Text="Iniciar sesion"
+                  onPress={() => {
+                    formikProps.handleSubmit();
+                    this.signIn(formikProps);
+                  }}
+                />
+              </View>
+            </View>
+          )}
+        </Formik>
       </View>
     );
   }

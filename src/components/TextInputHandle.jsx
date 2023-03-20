@@ -4,9 +4,13 @@ import { TextInput } from "react-native-paper";
 import { COLORS } from "../themes/colors";
 import { SignUpStyle } from "../themes/SignUpStyle";
 
-const TextInputHandle = (props) => {
-  const { label, placeholder, onChangeText, keylabel } = props;
-
+const TextInputHandle = ({
+  label,
+  placeholder,
+  onChangeText,
+  keylabel,
+  value,
+}) => {
   return (
     <TextInput
       mode="outlined"
@@ -18,6 +22,7 @@ const TextInputHandle = (props) => {
       textColor={COLORS.WHITE}
       placeholderTextColor={COLORS.WHITE}
       onChangeText={(text) => onChangeText(text, keylabel)}
+      value={value}
     />
   );
 };
