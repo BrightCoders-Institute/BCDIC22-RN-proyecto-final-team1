@@ -29,7 +29,6 @@ export class LoginScreen extends Component {
   }
 
   signIn(formikProps) {
-    console.log(formikProps.values);
     signInWithEmailAndPassword(
       auth,
       formikProps.values.email,
@@ -40,7 +39,6 @@ export class LoginScreen extends Component {
         formikProps.resetForm();
       })
       .catch((error) => {
-        console.log(error);
         switch (error.code) {
           case "auth/user-not-found":
             Alert.alert("Email no registrado");
@@ -62,7 +60,6 @@ export class LoginScreen extends Component {
         <Formik
           initialValues={this.state.formikProps}
           onSubmit={(values, formikHelpers) => {
-            console.log(values);
             formikHelpers.resetForm();
           }}
         >
