@@ -1,60 +1,106 @@
+import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert, Image } from "react-native";
-import React, { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import { auth, storage} from '../api/firebase'
-import {ref, uploadBytes} from 'firebase/storage'
+import { auth, storage, db} from '../api/firebase'
+import { doc, collection, query, getDocs, setDoc} from 'firebase/firestore'
+import { ref, uploadBytes } from 'firebase/storage'
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
-const Uploadimg = () => {
-  const [image, setImage] = useState(null);
-  const [uploading, setUploading] = useState(false);
-
-  const pickImage = async () => {
+class Uploadimg extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: null,
+      uploading: false,
+    };
+  }
+  pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    const source = { uri: result.assets[0].uri};
+    const source = { uri: result.assets[0].uri };
     console.log(source);
-    setImage(source);
+    this.setState({ image: source });
   };
-
-  const uploadImage = async () => {
-    setUploading(true);
-    const response = await fetch(image.uri);
+  uploadImage = async () => {
+    this.setState({ uploading: true });
+    const response = await fetch(this.state.image.uri);
     const blob = await response.blob();
-    const refImage = ref(storage, `${auth.currentUser.uid}/hay-mi-madre-el-bicho`);
-          
-
+    const id = uuidv4();
+    const refImage = ref(storage, `${auth.currentUser.uid}/${id}`);
     try {
-      uploadBytes(refImage, blob)
-      .then((snapshot) => {
-        console.log('sube', snapshot);
+    await  uploadBytes(refImage, blob)
+    this.setState({ uploading: false, image: null });
+    
+    const reporte = {
+      descripcion: 'Un nuevo reporte',
+      idImg: id,
+      locacion: 'Ciudad de México',
+      fecha: new Date(),
+    };
+    
+      const newReporte = doc(collection(db, `users/${auth.currentUser.uid}/reports`));
+      const q = query(collection(db, 'users'));
+      const querySnap = await getDocs(q);
+      const queryData = querySnap.docs.map((reports) => ({
+        ...reports.data(),
+        id: reports.id
+      }));
+      queryData.map(async() => {
+        await setDoc(newReporte, reporte);
       })
-    } catch (e) {
-      console.error(e);
+      console.log('Reporte agregado');
+    } catch (error) {
+      console.error('Error al agregar el reporte:', error);
     }
-    setUploading(false);
-    Alert.alert(
-      'Image uploaded!',
-    );
-    setImage(null);
   };
   
-  return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
-        <Text style={styles.buttonText}>Select Image</Text>
-      </TouchableOpacity>
-      <View style={styles.imageContainer}> 
-        {image && <Image source={{ uri: image.uri }} style={{width:300 , height:300}} />}
-        <TouchableOpacity style={styles.uploadButton} onPress={uploadImage}>
-          <Text style={styles.buttonText}>Upload Image</Text>
+  // agregarReporte = async () => {
+  //   const usuarioId = auth.currentUser.uid;
+  //   const reporte = {
+  //     descripcion: 'Un nuevo reporte',
+  //     idImg: '123',
+  //     locacion: 'Ciudad de México',
+  //     fecha: new Date(),
+  //   };
+  //   try {
+  //     const newReporte = doc(collection(db, `users/${auth.currentUser.uid}/reports`));
+  //     const q = query(collection(db, 'users'));
+  //     const querySnap = await getDocs(q);
+  //     const queryData = querySnap.docs.map((reports) => ({
+  //       ...reports.data(),
+  //       id: reports.id
+  //     }));
+  //     queryData.map(async() => {
+  //       await setDoc(newReporte, reporte);
+  //     })
+  //     console.log('Reporte agregado');
+  //   } catch (error) {
+  //     console.error('Error al agregar el reporte:', error);
+  //   }
+  // };
+  
+  render() {
+    const { image, uploading } = this.state;
+
+    return (
+      <SafeAreaView style={styles.container}>
+        <TouchableOpacity style={styles.selectButton} onPress={this.pickImage}>
+          <Text style={styles.buttonText}>Select Image</Text>
         </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  )
+        <View style={styles.imageContainer}>
+          {image && <Image source={{ uri: image.uri }} style={{ width: 300, height: 300 }} />}
+          <TouchableOpacity style={styles.uploadButton} onPress={this.uploadImage} disabled={!image || uploading}>
+            <Text style={styles.buttonText}>Upload Image</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 }
 
 export default Uploadimg;
@@ -86,5 +132,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-

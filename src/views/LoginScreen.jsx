@@ -5,6 +5,7 @@ import { LoginScreenStyle } from "../themes/LoginStyle";
 import TextInputHandle from "../components/TextInputHandle";
 import TextInputPass from "../components/TextInputPass";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../api/firebase'
 export class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -17,11 +18,11 @@ export class LoginScreen extends Component {
   }
 
   handleInputChangeMail(value) {
-    this.setState({ inputValueMail: value });
+    this.setState({ ...this.state, inputValueMail: value });
   }
 
   handleInputChangePassword(value) {
-    this.setState({ inputValuePassword: value });
+    this.setState({ ...this.state, inputValuePassword: value });
   }
 
   signIn() {
@@ -31,6 +32,7 @@ export class LoginScreen extends Component {
       this.state.inputValuePassword
     )
       .then((res) => {
+        console.log(res.user);
         this.props.navigation.navigate("MyDrawer");
         this.setState({ inputValueMail: "", inputValuePassword: "" });
       })
@@ -68,9 +70,7 @@ export class LoginScreen extends Component {
           <View View style={LoginScreenStyle.buttonSession}>
             <ButtonBlue
               Text="Iniciar sesion"
-              onPress={() => {
-                this.props.navigation.navigate("MyDrawer");
-              }}
+              onPress={() => this.signIn()}
             />
           </View>
         </View>

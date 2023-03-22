@@ -9,6 +9,10 @@ import MapView, { Marker } from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
 import { mapDark } from "../themes/MapStyle";
 import * as ImagePicker from 'expo-image-picker';
+import { auth, storage } from '../api/firebase'
+import { ref, uploadBytes } from 'firebase/storage'
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -41,6 +45,26 @@ export class AddRecord extends Component {
   state = {
     markerLocation: null,
   };
+
+  uploadImage = async () => {
+    this.setState({ uploading: true });
+    const response = await fetch(this.state.image.uri);
+    const blob = await response.blob();
+    const id = uuidv4();
+    const refImage = ref(storage, `${auth.currentUser.uid}/${id}`);
+    
+    try {
+      uploadBytes(refImage, blob)
+        .then((snapshot) => {
+          console.log('sube', snapshot);
+          return true
+        })
+    } catch (e) {
+      console.error(e);
+      return false
+    }
+  };
+
   handleMapPress = (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     this.setState({ markerLocation: { latitude, longitude } });
