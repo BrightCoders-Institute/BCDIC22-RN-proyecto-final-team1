@@ -59,31 +59,6 @@ class Uploadimg extends React.Component {
     }
   };
   
-  // agregarReporte = async () => {
-  //   const usuarioId = auth.currentUser.uid;
-  //   const reporte = {
-  //     descripcion: 'Un nuevo reporte',
-  //     idImg: '123',
-  //     locacion: 'Ciudad de México',
-  //     fecha: new Date(),
-  //   };
-  //   try {
-  //     const newReporte = doc(collection(db, `users/${auth.currentUser.uid}/reports`));
-  //     const q = query(collection(db, 'users'));
-  //     const querySnap = await getDocs(q);
-  //     const queryData = querySnap.docs.map((reports) => ({
-  //       ...reports.data(),
-  //       id: reports.id
-  //     }));
-  //     queryData.map(async() => {
-  //       await setDoc(newReporte, reporte);
-  //     })
-  //     console.log('Reporte agregado');
-  //   } catch (error) {
-  //     console.error('Error al agregar el reporte:', error);
-  //   }
-  // };
-  
   render() {
     const { image, uploading } = this.state;
 

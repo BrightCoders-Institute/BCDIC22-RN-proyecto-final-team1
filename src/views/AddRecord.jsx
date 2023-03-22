@@ -9,10 +9,12 @@ import MapView, { Marker } from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
 import { mapDark } from "../themes/MapStyle";
 import * as ImagePicker from 'expo-image-picker';
-import { auth, storage } from '../api/firebase'
+import { auth, storage, db} from '../api/firebase'
+import { doc, collection, query, getDocs, setDoc} from 'firebase/firestore'
 import { ref, uploadBytes } from 'firebase/storage'
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import ButtonBlue from "../components/ButtonBlue";
 
 
 
@@ -21,27 +23,23 @@ export class AddRecord extends Component {
     super(props);
     this.state = {
       image: null,
-      isLoading: false
+      isLoading: false,
+      uploading: false,
+      descripcion: '',
     };
   }
 
   pickImage = async () => {
-    this.setState({ isLoading: true });
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.assets[0].uri });
-    }
-    this.setState({ isLoading: false });
+    const source = { uri: result.assets[0].uri };
+    console.log(source);
+    this.setState({ image: source });
   };
-
   state = {
     markerLocation: null,
   };
@@ -52,19 +50,33 @@ export class AddRecord extends Component {
     const blob = await response.blob();
     const id = uuidv4();
     const refImage = ref(storage, `${auth.currentUser.uid}/${id}`);
-    
     try {
-      uploadBytes(refImage, blob)
-        .then((snapshot) => {
-          console.log('sube', snapshot);
-          return true
-        })
-    } catch (e) {
-      console.error(e);
-      return false
+    await  uploadBytes(refImage, blob)
+    this.setState({ uploading: false, image: null });
+    
+    const reporte = {
+      descripcion: this.state.descripcion,
+      idImg: id,
+      locacion: this.state.markerLocation,
+      fecha: new Date(),
+    };
+    
+      const newReporte = doc(collection(db, `users/${auth.currentUser.uid}/reports`));
+      const q = query(collection(db, 'users'));
+      const querySnap = await getDocs(q);
+      const queryData = querySnap.docs.map((reports) => ({
+        ...reports.data(),
+        id: reports.id
+      }));
+      queryData.map(async() => {
+        await setDoc(newReporte, reporte);
+      })
+      console.log('Reporte agregado');
+    } catch (error) {
+      console.error('Error al agregar el reporte:', error);
     }
   };
-
+  
   handleMapPress = (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     this.setState({ markerLocation: { latitude, longitude } });
@@ -87,6 +99,7 @@ export class AddRecord extends Component {
               style={AddRecordStyle.textInput}
               textColor={COLORS.WHITE}
               placeholderTextColor={COLORS.WHITE}
+              onChangeText={(text) => this.setState({ descripcion: text })}
             />
             <TouchableOpacity onPress={this.pickImage} style={AddRecordStyle.addImage}>
               <MaterialIcons
@@ -122,6 +135,10 @@ export class AddRecord extends Component {
                 />
               )}
             </MapView>
+            <ButtonBlue
+              text="add report"
+              onPress={() => this.uploadImage()}
+            />
           </View>
         </ScrollView>
       </View>
