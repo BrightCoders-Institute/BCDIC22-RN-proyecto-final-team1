@@ -47,7 +47,8 @@ export class LoginScreen extends Component {
             Alert.alert("Contrasena Incorrecta");
             break;
           default:
-            Alert.alert("Email o contrasena invalida");
+            formikProps.errors.email = error.code;
+            formikProps.errors.password = error.code;
             break;
         }
       });
@@ -60,7 +61,25 @@ export class LoginScreen extends Component {
         <Formik
           initialValues={this.state.formikProps}
           onSubmit={(values, formikHelpers) => {
+            w;
             formikHelpers.resetForm();
+          }}
+          validate={(values) => {
+            const emailValidRegex =
+              /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            const errors = {};
+            if (!values.email) {
+              errors.email = "Por favor, ingrese un correo electrónico";
+            } else if (!(values.email.match(emailValidRegex) ? true : false)) {
+              errors.email = "Dirección de correo electrónico inválida";
+            }
+            if (!values.password) {
+              errors.password = "Por favor, ingrese una contraseña";
+            } else if (values.password.length < 8) {
+              errors.password =
+                "La contraseña debe tener al menos 8 caracteres";
+            }
+            return errors;
           }}
         >
           {(formikProps) => (
@@ -72,6 +91,7 @@ export class LoginScreen extends Component {
                   this.handleInputChangeMail(formikProps, text)
                 }
                 value={formikProps.values.email}
+                error={formikProps.errors.email}
               />
               <TextInputPass
                 label="Contraseña"
@@ -81,6 +101,7 @@ export class LoginScreen extends Component {
                   this.handleInputChangePassword(formikProps, text)
                 }
                 value={formikProps.values.password}
+                error={formikProps.errors.password}
               />
               <View View style={LoginScreenStyle.buttonSession}>
                 <ButtonBlue

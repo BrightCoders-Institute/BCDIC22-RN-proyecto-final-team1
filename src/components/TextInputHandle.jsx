@@ -5,6 +5,7 @@ import { COLORS } from "../themes/colors";
 import { SignUpStyle } from "../themes/SignUpStyle";
 
 const TextInputHandle = ({
+  error,
   label,
   placeholder,
   onChangeText,
@@ -12,18 +13,21 @@ const TextInputHandle = ({
   value,
 }) => {
   return (
-    <TextInput
-      mode="outlined"
-      label={label}
-      placeholder={placeholder}
-      outlineColor={COLORS.LIGHT_BLUE}
-      activeOutlineColor={COLORS.LIGHT_BLUE}
-      style={SignUpStyle.input}
-      textColor={COLORS.WHITE}
-      placeholderTextColor={COLORS.WHITE}
-      onChangeText={(text) => onChangeText(text, keylabel)}
-      value={value}
-    />
+    <View>
+      <TextInput
+        mode="outlined"
+        label={label}
+        placeholder={placeholder}
+        outlineColor={COLORS.LIGHT_BLUE}
+        activeOutlineColor={COLORS.LIGHT_BLUE}
+        style={SignUpStyle.input}
+        textColor={COLORS.WHITE}
+        placeholderTextColor={COLORS.WHITE}
+        onChangeText={(text) => onChangeText(text, keylabel)}
+        value={value}
+      />
+      <Text error={error} style={{ color: COLORS.WHITE }}></Text>
+    </View>
   );
 };
 
