@@ -6,7 +6,7 @@ export const AddRecordStyle = StyleSheet.create({
   scroll: {
     width: "100%",
     height: "100%",
-    backgroundColor: COLORS.DARK_BLUE
+    backgroundColor: COLORS.DARK_BLUE,
   },
   view: { alignSelf: "center" },
   textInput: {
@@ -47,9 +47,15 @@ export const AddRecordStyle = StyleSheet.create({
   UploadImgContainer: {
     width: 350,
     height: 300,
-    top:10
+    top: 10,
   },
-  UploadImg:{ 
-    width: "100%", 
-    height: "100%"}
+  UploadImg: {
+    width: "100%",
+    height: "100%",
+  },
+  ButtonAdd: {
+    alignSelf: "center",
+    marginBottom: 100,
+    top: 40,
+  },
 });

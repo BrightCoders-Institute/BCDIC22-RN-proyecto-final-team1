@@ -26,6 +26,10 @@ export class AddRecord extends Component {
       isLoading: false,
       uploading: false,
       descripcion: '',
+      markerLocation: {
+                latitude: 19.244,
+                longitude: -103.725
+      }
     };
   }
 
@@ -40,10 +44,7 @@ export class AddRecord extends Component {
     console.log(source);
     this.setState({ image: source });
   };
-  state = {
-    markerLocation: null,
-  };
-
+  
   uploadImage = async () => {
     this.setState({ uploading: true });
     const response = await fetch(this.state.image.uri);
@@ -111,7 +112,7 @@ export class AddRecord extends Component {
             </TouchableOpacity>
             <View style={AddRecordStyle.UploadImgContainer}>
               {isLoading && <ActivityIndicator size="large" color={COLORS.loaderColor} />}
-              {image && <Image source={{ uri: image }} style={AddRecordStyle.UploadImg} />}
+              {image && <Image source={{ uri: image.uri }} style={AddRecordStyle.UploadImg} />}
             </View>
             <View style={AddRecordStyle.viewUbi}>
               <Text style={AddRecordStyle.textUbi}>Ubicación</Text>
@@ -121,9 +122,10 @@ export class AddRecord extends Component {
               initialRegion={{
                 latitude: 19.244,
                 longitude: -103.725,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.03,
               }}
+              showsUserLocation={true}
               customMapStyle={mapDark}
               style={AddRecordStyle.map}
               onPress={this.handleMapPress}
@@ -135,10 +137,12 @@ export class AddRecord extends Component {
                 />
               )}
             </MapView>
+            <View style={AddRecordStyle.ButtonAdd}>
             <ButtonBlue
-              text="add report"
+              Text="add report"
               onPress={() => this.uploadImage()}
             />
+            </View>
           </View>
         </ScrollView>
       </View>
