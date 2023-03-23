@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import {
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  View,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import Headimg from "../components/Headimg";
 import { imgHead } from "../themes/Urls";
 import { TextInput, Divider } from "react-native-paper";
@@ -8,17 +16,83 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
 import { AddRecordStyle } from "../themes/AddRecordStyle";
 import { mapDark } from "../themes/MapStyle";
+import * as ImagePicker from "expo-image-picker";
+import { auth, storage, db } from "../api/firebase";
+import { doc, collection, query, getDocs, setDoc } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
+import ButtonBlue from "../components/ButtonBlue";
 
 export class AddRecord extends Component {
-  state = {
-    markerLocation: null,
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: null,
+      isLoading: false,
+      uploading: false,
+      descripcion: "",
+      markerLocation: {
+        latitude: 19.244,
+        longitude: -103.725,
+      },
+    };
+  }
+
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    const source = { uri: result.assets[0].uri };
+    this.setState({ image: source });
   };
+
+  uploadImage = async () => {
+    this.setState({ uploading: true });
+    const response = await fetch(this.state.image.uri);
+    const blob = await response.blob();
+    const id = uuidv4();
+    const refImage = ref(storage, `${auth.currentUser.uid}/${id}`);
+    try {
+      await uploadBytes(refImage, blob);
+      this.setState({ uploading: false, image: null });
+
+      const report = {
+        descripcion: this.state.descripcion,
+        idImg: id,
+        locacion: this.state.markerLocation,
+        fecha: new Date(),
+      };
+
+      const newReport = doc(
+        collection(db, `users/${auth.currentUser.uid}/reports`)
+      );
+      const users = query(collection(db, "users"));
+      const querySnap = await getDocs(users);
+      const queryData = querySnap.docs.map((reports) => ({
+        ...reports.data(),
+        id: reports.id,
+      }));
+      queryData.map(async () => {
+        await setDoc(newReport, report);
+      });
+      Alert.alert("Reporte agregado con éxito");
+    } catch (error) {
+      Alert.alert("Error al agregar reporte");
+    }
+  };
+
   handleMapPress = (event) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     this.setState({ markerLocation: { latitude, longitude } });
   };
+
   render() {
     const { markerLocation } = this.state;
+    const { image, isLoading } = this.state;
     return (
       <View>
         <ScrollView style={AddRecordStyle.scroll}>
@@ -32,8 +106,12 @@ export class AddRecord extends Component {
               style={AddRecordStyle.textInput}
               textColor={COLORS.WHITE}
               placeholderTextColor={COLORS.WHITE}
+              onChangeText={(text) => this.setState({ descripcion: text })}
             />
-            <TouchableOpacity style={AddRecordStyle.addImage}>
+            <TouchableOpacity
+              onPress={this.pickImage}
+              style={AddRecordStyle.addImage}
+            >
               <MaterialIcons
                 name="add-a-photo"
                 size={50}
@@ -41,6 +119,17 @@ export class AddRecord extends Component {
               />
               <Text style={AddRecordStyle.text}>Inserte una imagen</Text>
             </TouchableOpacity>
+            <View style={AddRecordStyle.UploadImgContainer}>
+              {isLoading && (
+                <ActivityIndicator size="large" color={COLORS.loaderColor} />
+              )}
+              {image && (
+                <Image
+                  source={{ uri: image.uri }}
+                  style={AddRecordStyle.UploadImg}
+                />
+              )}
+            </View>
             <View style={AddRecordStyle.viewUbi}>
               <Text style={AddRecordStyle.textUbi}>Ubicación</Text>
               <Divider style={AddRecordStyle.divider} />
@@ -49,9 +138,10 @@ export class AddRecord extends Component {
               initialRegion={{
                 latitude: 19.244,
                 longitude: -103.725,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.03,
               }}
+              showsUserLocation={true}
               customMapStyle={mapDark}
               style={AddRecordStyle.map}
               onPress={this.handleMapPress}
@@ -63,6 +153,12 @@ export class AddRecord extends Component {
                 />
               )}
             </MapView>
+            <View style={AddRecordStyle.ButtonAdd}>
+              <ButtonBlue
+                Text="add report"
+                onPress={() => this.uploadImage()}
+              />
+            </View>
           </View>
         </ScrollView>
       </View>

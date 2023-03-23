@@ -4,5 +4,6 @@ export const COLORS = ({
     LIGHT_BLUE: '#7ECCE4',
     GREEN:'#7DC65B',
     PURPLE: '#343160',
-    BLACK: '#000000'
+    BLACK: '#000000',
+    loaderColor: "#0000ff",
 });
