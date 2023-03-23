@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Alert } from "react-native";
 import React, { Component } from "react";
 import ButtonBlue from "../components/ButtonBlue";
 import { LoginScreenStyle } from "../themes/LoginStyle";
@@ -18,14 +18,15 @@ export class LoginScreen extends Component {
   }
 
   handleInputChangeMail(value) {
-    this.setState({ ...this.state, inputValueMail: value });
+    this.setState({...this.props.state, inputValueMail: value });
   }
 
   handleInputChangePassword(value) {
-    this.setState({ ...this.state, inputValuePassword: value });
+    this.setState({...this.props.state, inputValuePassword: value });
   }
 
   signIn() {
+    console.log(this.state)
     signInWithEmailAndPassword(
       auth,
       this.state.inputValueMail,
