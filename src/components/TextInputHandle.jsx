@@ -26,7 +26,7 @@ const TextInputHandle = ({
         onChangeText={(text) => onChangeText(text, keylabel)}
         value={value}
       />
-      <Text error={error} style={{ color: COLORS.WHITE }}></Text>
+      <Text style={{ color: COLORS.RED }}>{error}</Text>
     </View>
   );
 };

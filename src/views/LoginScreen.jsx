@@ -61,7 +61,6 @@ export class LoginScreen extends Component {
         <Formik
           initialValues={this.state.formikProps}
           onSubmit={(values, formikHelpers) => {
-            w;
             formikHelpers.resetForm();
           }}
           validate={(values) => {
@@ -70,6 +69,8 @@ export class LoginScreen extends Component {
             const errors = {};
             if (!values.email) {
               errors.email = "Por favor, ingrese un correo electrónico";
+            } else if (errors.email == "auth/invalid-email") {
+              errors.email = "Texto para indicar que pongas tu mail";
             } else if (!(values.email.match(emailValidRegex) ? true : false)) {
               errors.email = "Dirección de correo electrónico inválida";
             }
