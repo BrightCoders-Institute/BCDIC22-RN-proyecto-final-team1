@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, ScrollView, TouchableOpacity, Button, Image, View, Platform, ActivityIndicator} from "react-native";
+import { Text, ScrollView, TouchableOpacity, Button, Image, View, Platform, ActivityIndicator, Alert} from "react-native";
 import Headimg from "../components/Headimg";
 import { imgHead } from "../themes/Urls";
 import { TextInput, Divider } from "react-native-paper";
@@ -41,7 +41,6 @@ export class AddRecord extends Component {
       quality: 1,
     });
     const source = { uri: result.assets[0].uri };
-    console.log(source);
     this.setState({ image: source });
   };
   
@@ -72,9 +71,9 @@ export class AddRecord extends Component {
       queryData.map(async() => {
         await setDoc(newReporte, reporte);
       })
-      console.log('Reporte agregado');
+      Alert.alert('Reporte agregado con éxito');
     } catch (error) {
-      console.error('Error al agregar el reporte:', error);
+      Alert.alert('Error al agregar reporte');
     }
   };
   
