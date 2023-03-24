@@ -20,6 +20,7 @@ import { indexStyle } from "../themes/IndexStyle";
 import { COLORS } from "../themes/colors";
 import {auth, dataUser} from '../api/firebase'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Getreports from "../views/Getreports";
 
 
 
@@ -144,6 +145,7 @@ export class Index extends Component {
           <Stack.Screen name="Details" component={Details} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="MyDrawer" component={MyDrawer} />
+          <Stack.Screen name="Getreports" component={Getreports} />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -33,7 +33,7 @@ export class LoginScreen extends Component {
       this.state.inputValuePassword
     )
       .then((res) => {
-        this.props.navigation.navigate("MyDrawer");
+        this.props.navigation.navigate("Getreports");
         this.setState({ inputValueMail: "", inputValuePassword: "" });
       })
       .catch((error) => {
