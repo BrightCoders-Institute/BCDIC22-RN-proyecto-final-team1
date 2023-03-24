@@ -7,20 +7,23 @@ import TextInputPass from "../components/TextInputPass";
 import { TextInput } from "react-native-paper";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { createProfile, auth } from "../api/firebase";
+import { Formik } from "formik";
+import { COLORS } from "../themes/colors";
 
 export class SignUpScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValueName: "",
-      inputValueHood: "",
-      inputValueCp: "",
-      inputValueMail: "",
-      inputValuePassword: "",
+      formikProps: {
+        name: "",
+        hood: "",
+        cp: "",
+        mail: "",
+        password: "",
+      },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
   handleInputChange(value, key) {
     this.setState((prevState) => {
       return {
@@ -31,25 +34,18 @@ export class SignUpScreen extends Component {
   }
 
   createUser = () => {
-    if (
-      this.state.inputValueMail === "" &&
-      this.state.inputValuePassword === ""
-    ) {
+    if (this.state.mail === "" && this.state.password === "") {
       Alert.alert("Ingresar todos los datos necesarios!");
     }
-    createUserWithEmailAndPassword(
-      auth,
-      this.state.inputValueMail,
-      this.state.inputValuePassword
-    )
+    createUserWithEmailAndPassword(auth, this.state.mail, this.state.password)
       .then(async (res) => {
         console.log(res);
         await createProfile(
           res.user.uid,
-          this.state.inputValueMail,
-          this.state.inputValueName,
-          this.state.inputValueHood,
-          this.state.inputValueCp
+          this.state.mail,
+          this.state.name,
+          this.state.hood,
+          this.state.cp
         );
         Alert.alert("Cuenta creada exitosamente");
         this.props.navigation.navigate("Login");
@@ -57,11 +53,11 @@ export class SignUpScreen extends Component {
       })
       .catch((error) => {
         switch (error.code) {
-          case 'auth/email-already-in-use':
-            Alert.alert('Email en uso');
+          case "auth/email-already-in-use":
+            Alert.alert("Email en uso");
             break;
           default:
-            Alert.alert('Email o contrasena invalida');
+            Alert.alert("Email o contrasena invalida");
             break;
         }
       });
@@ -72,43 +68,45 @@ export class SignUpScreen extends Component {
       <View style={SignUpStyle.container}>
         <ScrollView style={SignUpStyle.scroll}>
           <Text style={SignUpStyle.title}>Registrarse</Text>
-          <TextInputHandle
-            label="Nombre Completo"
-            placeholder="Nombre"
-            keylabel="inputValueName"
-            onChangeText={this.handleInputChange}
-          />
+          <Formik>
+            <TextInputHandle
+              label="Nombre Completo"
+              placeholder="Nombre"
+              keylabel="name"
+              onChangeText={this.handleInputChange}
+            />
 
-          <TextInputHandle
-            label="Colonia"
-            placeholder="Colonia"
-            keylabel="inputValueHood"
-            onChangeText={this.handleInputChange}
-          />
+            <TextInputHandle
+              label="Colonia"
+              placeholder="Colonia"
+              keylabel="hood"
+              onChangeText={this.handleInputChange}
+            />
 
-          <TextInputHandle
-            label="Codigo Postal"
-            placeholder="Codigo Postal"
-            keylabel="inputValueCp"
-            onChangeText={this.handleInputChange}
-          />
+            <TextInputHandle
+              label="Codigo Postal"
+              placeholder="Codigo Postal"
+              keylabel="cp"
+              onChangeText={this.handleInputChange}
+            />
 
-          <TextInputHandle
-            label="Correo electronico"
-            placeholder="Correo electronico"
-            keylabel="inputValueMail"
-            onChangeText={this.handleInputChange}
-          />
+            <TextInputHandle
+              label="Correo electronico"
+              placeholder="Correo electronico"
+              keylabel="mail"
+              onChangeText={this.handleInputChange}
+            />
 
-          <TextInputPass
-            label="Contraseña"
-            placeholder="Contraseña"
-            keylabel="inputValuePassword"
-            onChangeText={this.handleInputChange}
-          />
-          <View style={SignUpStyle.button}>
-            <ButtonBlue Text="Crear Cuenta" onPress={this.createUser} />
-          </View>
+            <TextInputPass
+              label="Contraseña"
+              placeholder="Contraseña"
+              keylabel="password"
+              onChangeText={this.handleInputChange}
+            />
+            <View style={SignUpStyle.button}>
+              <ButtonBlue Text="Crear Cuenta" onPress={this.createUser} />
+            </View>
+          </Formik>
         </ScrollView>
       </View>
     );
