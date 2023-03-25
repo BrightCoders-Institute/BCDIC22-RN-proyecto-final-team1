@@ -3,7 +3,11 @@ import { COLORS } from "./colors";
 import { FWEIGHT } from "./fweight";
 
 export const StartupStyle = StyleSheet.create({
-  StartupScreen: { width: "100%", height: "100%", backgroundColor: COLORS.DARK_BLUE },
+  StartupScreen: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: COLORS.DARK_BLUE,
+  },
   Image: {
     width: 200,
     height: 200,

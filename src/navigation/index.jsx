@@ -20,7 +20,6 @@ import { indexStyle } from "../themes/IndexStyle";
 import { COLORS } from "../themes/colors";
 import { auth, dataUser } from "../api/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import SignTest from "../views/SingTest";
 
 const Stack = createStackNavigator();
 
@@ -137,7 +136,7 @@ export class Index extends Component {
           }}
           initialRouteName="StartupScreen"
         >
-          <Stack.Screen name="StartupScreen" component={SignTest} />
+          <Stack.Screen name="StartupScreen" component={SignUpScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Details" component={Details} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
