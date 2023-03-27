@@ -136,7 +136,7 @@ export class Index extends Component {
           }}
           initialRouteName="StartupScreen"
         >
-          <Stack.Screen name="StartupScreen" component={SignUpScreen} />
+          <Stack.Screen name="StartupScreen" component={StartupScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Details" component={Details} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />

@@ -5,5 +5,6 @@ export const COLORS = ({
     GREEN:'#7DC65B',
     PURPLE: '#343160',
     BLACK: '#000000',
-    RED: '#FC2947'
+    RED: '#FC2947',
+    loaderColor: "#0000ff",
 });

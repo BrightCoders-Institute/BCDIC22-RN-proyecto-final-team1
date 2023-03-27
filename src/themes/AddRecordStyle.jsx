@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "./colors";
-import { FWEIGHT } from "./fweight";
 
 export const AddRecordStyle = StyleSheet.create({
   scroll: {
     width: "100%",
     height: "100%",
-    backgroundColor: COLORS.DARK_BLUE
+    backgroundColor: COLORS.DARK_BLUE,
   },
   view: { alignSelf: "center" },
   textInput: {
@@ -43,5 +42,19 @@ export const AddRecordStyle = StyleSheet.create({
     marginTop: 20,
     borderRadius: 5,
     marginBottom: 20,
+  },
+  UploadImgContainer: {
+    width: 350,
+    height: 300,
+    top: 10,
+  },
+  UploadImg: {
+    width: "100%",
+    height: "100%",
+  },
+  ButtonAdd: {
+    alignSelf: "center",
+    marginBottom: 100,
+    top: 40,
   },
 });
