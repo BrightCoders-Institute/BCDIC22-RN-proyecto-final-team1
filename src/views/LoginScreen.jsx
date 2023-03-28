@@ -26,14 +26,13 @@ export class LoginScreen extends Component {
   }
 
   signIn() {
-    console.log(this.state)
     signInWithEmailAndPassword(
       auth,
       this.state.inputValueMail,
       this.state.inputValuePassword
     )
       .then((res) => {
-        this.props.navigation.navigate("Getreports");
+        this.props.navigation.navigate("MyDrawer");
         this.setState({ inputValueMail: "", inputValuePassword: "" });
       })
       .catch((error) => {
