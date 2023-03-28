@@ -16,7 +16,7 @@ export class Cards extends Component {
           <View style={CardStyle.bottomView}>
             <Text style={CardStyle.headText}>Descripción</Text>
             <Text style={CardStyle.descText}>
-              El techo de mi casa se esta cayendo y esta con un grieta
+              {this.props.Descri}
             </Text>
           </View>
         </View>

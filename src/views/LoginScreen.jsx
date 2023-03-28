@@ -26,7 +26,6 @@ export class LoginScreen extends Component {
   }
 
   signIn() {
-    console.log(this.state)
     signInWithEmailAndPassword(
       auth,
       this.state.inputValueMail,
