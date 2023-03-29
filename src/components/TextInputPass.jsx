@@ -6,7 +6,7 @@ import { SignUpStyle } from "../themes/SignUpStyle";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const TextInputPass = (props) => {
-  const { label, placeholder, onChangeText, keylabel } = props;
+  const { error, label, placeholder, onChangeText, keylabel } = props;
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [icon, setIcon] = useState("eye");
 
@@ -38,6 +38,7 @@ const TextInputPass = (props) => {
           <MaterialCommunityIcons name={icon} size={24} color={COLORS.WHITE} />
         </TouchableOpacity>
       </View>
+      <Text style={{ color: COLORS.RED }}>{error}</Text>
     </View>
   );
 };

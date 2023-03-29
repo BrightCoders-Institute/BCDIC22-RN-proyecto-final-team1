@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "./colors";
-import { FWEIGHT } from "./fweight";
 
 export const AddRecordStyle = StyleSheet.create({
   scroll: {
