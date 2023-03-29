@@ -79,6 +79,41 @@ export class SignUpScreen extends Component {
       });
   };
 
+  validateFormik(values) {
+    const emailValidRegex =
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    const regexHood = /^[a-zA-Z\s]{4,20}$/;
+    const regex = /^[0-9]{5}$/;
+    const errors = {};
+    if (!values.name) {
+      errors.name = "Por favor, introduce un nombre";
+    } else if (values.name.length < 15) {
+      errors.name = "El nombre debe contener al menos 15 letras";
+    }
+    if (!values.hood) {
+      errors.hood = "Por favor, introduce tu locación";
+    } else if (!values.hood.match(regexHood) ? true : false) {
+      errors.hood = "La colonia debe tener al menos 4 letras y maximo 20";
+    }
+    if (!values.cp) {
+      errors.cp = "Por favor, introduce un código postal válido";
+    } else if (!values.cp.match(regex) ? true : false) {
+      errors.cp = "Utiliza los 5 números del código postal";
+    }
+    if (!values.email) {
+      errors.email = "Por favor, ingrese un correo electrónico";
+    } else if (errors.email == "auth/invalid-email") {
+      errors.email = "Texto para indicar que pongas tu mail";
+    } else if (!(values.email.match(emailValidRegex) ? true : false)) {
+      errors.email = "Dirección de correo electrónico inválida";
+    }
+    if (!values.password) {
+      errors.password = "Por favor, ingrese una contraseña";
+    } else if (values.password.length < 8) {
+      errors.password = "La contraseña debe tener al menos 8 caracteres";
+    }
+    return errors;
+  }
   render() {
     return (
       <View style={SignUpStyle.container}>
@@ -90,43 +125,7 @@ export class SignUpScreen extends Component {
               formikHelpers.resetForm();
             }}
             validate={(values) => {
-              const emailValidRegex =
-                /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-              const regexHood = /^[a-zA-Z\s]{4,20}$/;
-              const regex = /^[0-9]{5}$/;
-              const errors = {};
-              if (!values.name) {
-                errors.name = "Por favor, introduce un nombre";
-              } else if (values.name.length < 15) {
-                errors.name = "El nombre debe contener al menos 15 letras";
-              }
-              if (!values.hood) {
-                errors.hood = "Por favor, introduce tu locación";
-              } else if (!values.hood.match(regexHood) ? true : false) {
-                errors.hood =
-                  "La colonia debe tener al menos 4 letras y maximo 20";
-              }
-              if (!values.cp) {
-                errors.cp = "Por favor, introduce un código postal válido";
-              } else if (!values.cp.match(regex) ? true : false) {
-                errors.cp = "Utiliza los 5 números del código postal";
-              }
-              if (!values.email) {
-                errors.email = "Por favor, ingrese un correo electrónico";
-              } else if (errors.email == "auth/invalid-email") {
-                errors.email = "Texto para indicar que pongas tu mail";
-              } else if (
-                !(values.email.match(emailValidRegex) ? true : false)
-              ) {
-                errors.email = "Dirección de correo electrónico inválida";
-              }
-              if (!values.password) {
-                errors.password = "Por favor, ingrese una contraseña";
-              } else if (values.password.length < 8) {
-                errors.password =
-                  "La contraseña debe tener al menos 8 caracteres";
-              }
-              return errors;
+              return this.validateFormik(values);
             }}
           >
             {(formikProps) => (
