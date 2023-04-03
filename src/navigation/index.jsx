@@ -1,150 +1,83 @@
-import "react-native-gesture-handler";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from "@react-navigation/drawer";
-import React, { Component, useEffect, useState } from "react";
-import AddRecord from "../views/AddRecord";
-import MyRecords from "../views/MyRecords";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./../views/LoginScreen";
-import SignUpScreen from "../views/SignUpScreen";
-import StartupScreen from "../views/StartupScreen";
-import Details from "../views/Details";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { View, Image, Text } from "react-native";
-import { indexStyle } from "../themes/IndexStyle";
-import { COLORS } from "../themes/colors";
-import { auth, dataUser } from "../api/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { Component } from 'react';
+import { ScrollView, View } from "react-native";
+import Headimg from "../components/Headimg";
+import { imgHeadMyRecords, cardImg } from "../themes/Urls";
+import Cards from "../components/Cards";
+import { ReportedDamageStyle } from '../themes/ReportedDamageStyle';
+import { db, auth, storage } from "../api/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { ref, getDownloadURL } from "firebase/storage";
 
-const Stack = createStackNavigator();
+export class ReportedDamages extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      reports: [],
+    };
+  }
 
-const Drawer = createDrawerNavigator();
+  async componentDidMount() {
+    await this.getReports();
+  }
 
-function CustomDrawerContent(props) {
-  const [infodata, setInfodata] = useState("");
-
-  useEffect(() => {
-    dataUser().then(async () => {
-      await get();
-    });
-  }, []);
-
-  const get = async () => {
-    const val = await AsyncStorage.getItem("name");
-    setInfodata(val);
+  getReports = async () => {
+    try {
+      const query = collection(db, "reports");
+      const querySnapshot = await getDocs(query);
+      let newarray = [];
+      for (const doc of querySnapshot.docs) {
+        const itemData = doc.data();
+        let imgUrl = await this.getImage(itemData.idImg);
+        if (imgUrl.startsWith("Firebase")) {
+          imgUrl = "";
+        }
+        const itemArray = {
+          data: {
+            ...itemData,
+            idImgUrl: imgUrl,
+          },
+          id: doc.id,
+        };
+        newarray.push(itemArray);
+      }
+      this.setState({ reports: newarray });
+    } catch (error) {
+      console.log("error", error.message);
+    }
   };
 
-  const signOut = async () => {
-    await auth.signOut();
-    props.navigation.replace("Login");
+  getImage = async (idImg) => {
+    try {
+      const refImage = ref(storage, `${idImg}`);
+
+      const response = await getDownloadURL(refImage);
+      return response;
+    } catch (error) {
+      return error.message;
+    }
   };
-  return (
-    <DrawerContentScrollView {...props}>
-      <View style={indexStyle.containerHeader}>
-        <View style={indexStyle.containerLogo}>
-          <Image
-            source={require("../../img/damageControl.png")}
-            style={indexStyle.imgLogo}
-          />
-          <Text style={indexStyle.textLogo}>Damage Control</Text>
-        </View>
-        <Text style={indexStyle.textUser}>
-          {infodata}
-          {"\n"}
-          {auth.currentUser.email}
-        </Text>
-      </View>
-      <View style={indexStyle.containerDrawer}>
-        <DrawerItemList {...props} />
-        <View style={indexStyle.containerLogout}>
-          <DrawerItem
-            label="Cerrar sesión"
-            labelStyle={indexStyle.drawerText}
-            onPress={signOut}
-            icon={({ focused, size }) => (
-              <MaterialCommunityIcons
-                name="logout"
-                size={size}
-                color={focused ? COLORS.WHITE : COLORS.BLACK}
-              />
-            )}
-          />
-        </View>
-      </View>
-    </DrawerContentScrollView>
-  );
-}
 
-function MyDrawer() {
-  return (
-    <Drawer.Navigator
-      screenOptions={{
-        drawerActiveTintColor: COLORS.WHITE,
-        drawerInactiveTintColor: COLORS.BLACK,
-        drawerActiveBackgroundColor: COLORS.LIGHT_BLUE,
-        drawerLabelStyle: indexStyle.dtextStyle,
-        headerShown: true,
-        headerTransparent: true,
-        headerTitle: "",
-        headerTintColor: COLORS.WHITE,
-        headerLeftContainerStyle: indexStyle.dtextContainer,
-      }}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen
-        name="Crear reportes"
-        component={AddRecord}
-        options={{
-          drawerIcon: ({ focused, size }) => (
-            <MaterialCommunityIcons
-              name="notebook-edit-outline"
-              size={size}
-              color={focused ? COLORS.WHITE : COLORS.BLACK}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Mis Reportes"
-        component={MyRecords}
-        options={{
-          drawerIcon: ({ focused, size }) => (
-            <MaterialCommunityIcons
-              name="newspaper-variant-multiple-outline"
-              size={size}
-              color={focused ? COLORS.WHITE : COLORS.BLACK}
-            />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
-  );
-}
-
-export class Index extends Component {
   render() {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="StartupScreen"
-        >
-          <Stack.Screen name="StartupScreen" component={StartupScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Details" component={Details} />
-          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-          <Stack.Screen name="MyDrawer" component={MyDrawer} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <View style={ReportedDamageStyle.container}>
+        <View>
+          <Headimg ImgUrl={imgHeadMyRecords} Text={`Daños Reportados`} />
+        </View>
+        <ScrollView style={ReportedDamageStyle.scrollView}>
+          {this.state.reports.map((item) => (
+            <Cards
+              key={item.id}
+              img={item.data.idImgUrl}
+              Descri={item.data.descripcion}
+              onPress={() => {
+                this.props.navigation.navigate("Details");
+              }}
+            />
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 }
 
-export default Index;
+export default ReportedDamages;
