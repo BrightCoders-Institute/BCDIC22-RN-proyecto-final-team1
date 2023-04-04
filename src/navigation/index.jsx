@@ -13,6 +13,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./../views/LoginScreen";
 import SignUpScreen from "../views/SignUpScreen";
 import StartupScreen from "../views/StartupScreen";
+import ReportedDamages from "../views/ReportedDamages";
 import Details from "../views/Details";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, Image, Text } from "react-native";
@@ -126,6 +127,77 @@ function MyDrawer() {
   );
 }
 
+function CustomDrawerContent2(props) {
+  const signOut = async () => {
+    await auth.signOut();
+    props.navigation.replace("Login");
+  };
+  return (
+    <DrawerContentScrollView {...props}>
+      <View style={indexStyle.containerHeader}>
+        <View style={indexStyle.containerLogo}>
+          <Image
+            source={require("../../img/damageControl.png")}
+            style={indexStyle.imgLogo}
+          />
+          <Text style={indexStyle.textLogo}>Damage Control</Text>
+        </View>
+        <Text style={indexStyle.textUser}>Admistrador</Text>
+      </View>
+      <View style={indexStyle.containerDrawer}>
+        <DrawerItemList {...props} />
+        <View style={indexStyle.containerLogout}>
+          <DrawerItem
+            label="Cerrar sesión"
+            labelStyle={indexStyle.drawerText}
+            onPress={signOut}
+            icon={({ focused, size }) => (
+              <MaterialCommunityIcons
+                name="logout"
+                size={size}
+                color={focused ? COLORS.WHITE : COLORS.BLACK}
+              />
+            )}
+          />
+        </View>
+      </View>
+    </DrawerContentScrollView>
+  );
+}
+
+function MyDrawerAdmin() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerActiveTintColor: COLORS.WHITE,
+        drawerInactiveTintColor: COLORS.BLACK,
+        drawerActiveBackgroundColor: COLORS.LIGHT_BLUE,
+        drawerLabelStyle: indexStyle.dtextStyle,
+        headerShown: true,
+        headerTransparent: true,
+        headerTitle: "",
+        headerTintColor: COLORS.WHITE,
+        headerLeftContainerStyle: indexStyle.dtextContainer,
+      }}
+      drawerContent={(props) => <CustomDrawerContent2 {...props} />}
+    >
+      <Drawer.Screen
+        name="Daños reportados"
+        component={ReportedDamages}
+        options={{
+          drawerIcon: ({ focused, size }) => (
+            <MaterialCommunityIcons
+              name="notebook-edit-outline"
+              size={size}
+              color={focused ? COLORS.WHITE : COLORS.BLACK}
+            />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
+
 export class Index extends Component {
   render() {
     return (
@@ -134,13 +206,15 @@ export class Index extends Component {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="StartupScreen"
+          initialRouteName="MyDrawerAdmin"
         >
           <Stack.Screen name="StartupScreen" component={StartupScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Details" component={Details} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+          <Stack.Screen name="ReportedDamages" component={ReportedDamages} />
           <Stack.Screen name="MyDrawer" component={MyDrawer} />
+          <Stack.Screen name="MyDrawerAdmin" component={MyDrawerAdmin} />
         </Stack.Navigator>
       </NavigationContainer>
     );

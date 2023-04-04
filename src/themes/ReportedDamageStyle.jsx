@@ -7,5 +7,5 @@ export const ReportedDamageStyle = StyleSheet.create({
     height: "100%",
     backgroundColor: COLORS.DARK_BLUE,
   },
-  scrollView: { marginTop: 20, marginLeft: "2.5%" },
+  scrollView: { marginTop: 20 },
 });
