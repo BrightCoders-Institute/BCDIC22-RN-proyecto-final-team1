@@ -17,7 +17,17 @@ export class ReportedDamages extends Component {
   }
 
   async componentDidMount() {
-    await this.getReports();
+    const users = await this.getAllUsers();
+    const promises = users.map(item => this.getReportsById(item.userid));
+
+    Promise.all(promises)
+    .then(result => {
+      const combinedArray = result.flatMap(arr => arr).filter(obj => Object.keys(obj).length !== 0);
+      this.setState({ reports: combinedArray })
+    })
+    .catch(error => {
+      console.log('error', error);
+    });
   }
 
   getReports = async () => {
@@ -27,7 +37,7 @@ export class ReportedDamages extends Component {
       let newarray = [];
       for (const doc of querySnapshot.docs) {
         const itemData = doc.data();
-        let imgUrl = await this.getImage(itemData.idImg);
+        let imgUrl = await this.getImage(itemData.idImg, auth.currentUser.uid);
         if (imgUrl.startsWith("Firebase")) {
           imgUrl = "";
         }
@@ -46,9 +56,52 @@ export class ReportedDamages extends Component {
     }
   };
 
-  getImage = async (idImg) => {
+  getReportsById = async (id) => {
     try {
-      const refImage = ref(storage, `${auth.currentUser.uid}/${idImg}`);
+      const query = collection(db, "users", id, "reports");
+      const querySnapshot = await getDocs(query);
+      let newarray = [];
+      for (const doc of querySnapshot.docs) {
+        const itemData = doc.data();
+        let imgUrl = await this.getImage(itemData.idImg, id);
+        if (imgUrl.startsWith("Firebase")) {
+          console.log(imgUrl)
+          imgUrl = "";
+        }
+        const itemArray = {
+          data: {
+            ...itemData,
+            idImgUrl: imgUrl,
+          },
+          id: doc.id,
+        };
+        newarray.push(itemArray);
+      }
+      return newarray;
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
+
+  getAllUsers = async () => {
+    try {
+      const query = collection(db, "users");
+      const querySnapshot = await getDocs(query);
+      let listusers = [];
+      for (const doc of querySnapshot.docs) {
+        const itemUser = { userid: doc.id, data: doc.data()};
+        listusers.push(itemUser);
+        
+      }
+      return listusers;
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
+
+  getImage = async (idImg, iduser) => {
+    try {
+      const refImage = ref(storage, `${iduser}/${idImg}`);
 
       const response = await getDownloadURL(refImage);
       return response;
