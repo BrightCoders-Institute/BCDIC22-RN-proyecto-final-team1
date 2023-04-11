@@ -69,7 +69,7 @@ export class MyRecords extends Component {
               img={item.data.idImgUrl}
               Descri={item.data.descripcion}
               onPress={() => {
-                this.props.navigation.navigate("Details");
+                this.props.navigation.navigate("Details", {item: item.data});
               }}
             />
           ))}
