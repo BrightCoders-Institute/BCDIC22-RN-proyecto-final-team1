@@ -9,10 +9,13 @@ export class Cards extends Component {
     return (
       <TouchableOpacity style={CardStyle.bottomCard} onPress={this.props.onPress}>
         <View style={CardStyle.topView}>
-          <Image
-            source={{ uri: this.props.img }}
-            style={CardStyle.imgCard}
-          />
+          {
+            this.props.img.length > 0 &&
+            <Image
+              source={{ uri: this.props.img }}
+              style={CardStyle.imgCard}
+            />
+          }
           <View style={CardStyle.bottomView}>
             <Text style={CardStyle.headText}>Descripción</Text>
             <Text style={CardStyle.descText}>
