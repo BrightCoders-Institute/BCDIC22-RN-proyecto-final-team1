@@ -11,11 +11,11 @@ export const HeadCompStyle = StyleSheet.create({
   Text: {
     alignSelf: "center",
     position: "absolute",
-    top: 80,
+    top: 65,
     color: COLORS.WHITE,
     fontSize: 50,
     fontWeight: FWEIGHT.BOLD,
-    textalign: "center",
+    textAlign: "center",
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 2,
