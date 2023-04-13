@@ -122,7 +122,7 @@ export class ReportedDamages extends Component {
               img={item.data.idImgUrl}
               Descri={item.data.descripcion}
               onPress={() => {
-                this.props.navigation.navigate("Details");
+                this.props.navigation.navigate("AdminDetails",{item: item.data});
               }}
             />
           ))}

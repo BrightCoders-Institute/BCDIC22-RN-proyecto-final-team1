@@ -21,6 +21,7 @@ import { indexStyle } from "../themes/IndexStyle";
 import { COLORS } from "../themes/colors";
 import { auth, dataUser } from "../api/firebase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AdminDetails from "../views/AdminDetails";
 
 const Stack = createStackNavigator();
 
@@ -211,6 +212,7 @@ export class Index extends Component {
           <Stack.Screen name="StartupScreen" component={StartupScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Details" component={Details} />
+          <Stack.Screen name="AdminDetails" component={AdminDetails} />
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
           <Stack.Screen name="ReportedDamages" component={ReportedDamages} />
           <Stack.Screen name="MyDrawer" component={MyDrawer} />
