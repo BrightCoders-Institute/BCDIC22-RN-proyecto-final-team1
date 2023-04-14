@@ -207,7 +207,7 @@ export class Index extends Component {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="MyDrawerAdmin"
+          initialRouteName="StartupScreen"
         >
           <Stack.Screen name="StartupScreen" component={StartupScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />

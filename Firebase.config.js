@@ -5,6 +5,9 @@ import {
   FIREBASE_STORAGE_BUCKET,
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
+  GMAIL_ADMIN,
+  ADMIN_PASSWORD,
+
 } from "@env";
 export const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
@@ -14,3 +17,12 @@ export const firebaseConfig = {
   messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
   appId: FIREBASE_APP_ID,
 };
+
+export const AdminMail ={
+  email: GMAIL_ADMIN
+}
+
+export const AdminPassword ={
+  password: ADMIN_PASSWORD
+}
+
