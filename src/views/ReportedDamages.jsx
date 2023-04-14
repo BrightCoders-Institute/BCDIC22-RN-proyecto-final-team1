@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { ScrollView, View } from "react-native";
 import Headimg from "../components/Headimg";
 import { imgHeadMyRecords, cardImg } from "../themes/Urls";
 import Cards from "../components/Cards";
-import { ReportedDamageStyle } from '../themes/ReportedDamageStyle';
+import { ReportedDamageStyle } from "../themes/ReportedDamageStyle";
 import { db, auth, storage } from "../api/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
@@ -18,16 +18,16 @@ export class ReportedDamages extends Component {
 
   async componentDidMount() {
     const users = await this.getAllUsers();
-    const promises = users.map(item => this.getReportsById(item.userid));
+    const promises = users.map((item) => this.getReportsById(item.userid));
 
     Promise.all(promises)
-    .then(result => {
-      const combinedArray = result.flatMap(arr => arr).filter(obj => Object.keys(obj).length !== 0);
-      this.setState({ reports: combinedArray })
-    })
-    .catch(error => {
-      console.log('error', error);
-    });
+      .then((result) => {
+        const combinedArray = result
+          .flatMap((arr) => arr)
+          .filter((obj) => Object.keys(obj).length !== 0);
+        this.setState({ reports: combinedArray });
+      })
+      .catch((error) => {});
   }
 
   getReports = async () => {
@@ -46,14 +46,13 @@ export class ReportedDamages extends Component {
             ...itemData,
             idImgUrl: imgUrl,
           },
+          iduser: "",
           id: doc.id,
         };
         newarray.push(itemArray);
       }
       this.setState({ reports: newarray });
-    } catch (error) {
-      console.log("error", error.message);
-    }
+    } catch (error) {}
   };
 
   getReportsById = async (id) => {
@@ -65,7 +64,6 @@ export class ReportedDamages extends Component {
         const itemData = doc.data();
         let imgUrl = await this.getImage(itemData.idImg, id);
         if (imgUrl.startsWith("Firebase")) {
-          console.log(imgUrl)
           imgUrl = "";
         }
         const itemArray = {
@@ -73,14 +71,13 @@ export class ReportedDamages extends Component {
             ...itemData,
             idImgUrl: imgUrl,
           },
+          iduser: id,
           id: doc.id,
         };
         newarray.push(itemArray);
       }
       return newarray;
-    } catch (error) {
-      console.log("error", error.message);
-    }
+    } catch (error) {}
   };
 
   getAllUsers = async () => {
@@ -89,14 +86,11 @@ export class ReportedDamages extends Component {
       const querySnapshot = await getDocs(query);
       let listusers = [];
       for (const doc of querySnapshot.docs) {
-        const itemUser = { userid: doc.id, data: doc.data()};
+        const itemUser = { userid: doc.id, data: doc.data() };
         listusers.push(itemUser);
-        
       }
       return listusers;
-    } catch (error) {
-      console.log("error", error.message);
-    }
+    } catch (error) {}
   };
 
   getImage = async (idImg, iduser) => {
@@ -109,27 +103,31 @@ export class ReportedDamages extends Component {
       return error.message;
     }
   };
-    render() {
-        return (
-          <View style={ReportedDamageStyle.container}>
-            <View>
-              <Headimg ImgUrl={imgHeadMyRecords} Text={`Daños Reportados`} />
-            </View>
-            <ScrollView style={ReportedDamageStyle.scrollView}>
-            {this.state.reports.map((item) => (
+  render() {
+    return (
+      <View style={ReportedDamageStyle.container}>
+        <View>
+          <Headimg ImgUrl={imgHeadMyRecords} Text={`Daños Reportados`} />
+        </View>
+        <ScrollView style={ReportedDamageStyle.scrollView}>
+          {this.state.reports.map((item) => (
             <Cards
               key={item.id}
               img={item.data.idImgUrl}
               Descri={item.data.descripcion}
               onPress={() => {
-                this.props.navigation.navigate("AdminDetails",{item: item.data});
+                this.props.navigation.navigate("AdminDetails", {
+                  item: item.data,
+                  id: item.id,
+                  iduser: item.iduser,
+                });
               }}
             />
           ))}
-            </ScrollView>
-          </View>
-        );
-      }
-    }
+        </ScrollView>
+      </View>
+    );
+  }
+}
 
-export default ReportedDamages
+export default ReportedDamages;
