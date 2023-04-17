@@ -7,6 +7,8 @@ import TextInputPass from "../components/TextInputPass";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../api/firebase";
 import { Formik } from "formik";
+import {GMAIL_ADMIN, ADMIN_PASSWORD} from '@env';
+
 export class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -19,15 +21,13 @@ export class LoginScreen extends Component {
     this.handleInputChangeMail = this.handleInputChangeMail.bind(this);
     this.handleInputChangePassword = this.handleInputChangePassword.bind(this);
   }
-
   handleInputChangeMail(formikProps, text) {
     formikProps.setFieldValue("email", text);
   }
-
   handleInputChangePassword(formikProps, text) {
     formikProps.setFieldValue("password", text);
   }
-
+  
   signIn(formikProps) {
     signInWithEmailAndPassword(
       auth,
@@ -53,7 +53,6 @@ export class LoginScreen extends Component {
         }
       });
   }
-
   render() {
     return (
       <View style={LoginScreenStyle.LoginStyle}>
@@ -109,7 +108,15 @@ export class LoginScreen extends Component {
                   Text="Iniciar sesion"
                   onPress={() => {
                     formikProps.handleSubmit();
-                    this.signIn(formikProps);
+                    if (formikProps.errors.email || formikProps.errors.password) {
+                      Alert.alert("No es un usuario valido");
+                    } else {
+                      if (formikProps.values.email === GMAIL_ADMIN && formikProps.values.password === ADMIN_PASSWORD) {
+                        this.props.navigation.navigate("MyDrawerAdmin");
+                      } else {
+                        this.signIn(formikProps);
+                      }
+                    }
                   }}
                 />
               </View>
