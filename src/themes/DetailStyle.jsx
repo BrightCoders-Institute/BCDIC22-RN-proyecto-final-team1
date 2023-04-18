@@ -90,8 +90,9 @@ export const DetailStyle = StyleSheet.create({
   containerDateDetails: { width: 300, height: 200, marginLeft: 30 },
   textDateDetails: {
     color: COLORS.WHITE,
-    marginTop: 20,
+    marginTop: 80,
     alignSelf: "center",
-    fontSize: 25,
+    fontSize: 20,
+
   },
 });

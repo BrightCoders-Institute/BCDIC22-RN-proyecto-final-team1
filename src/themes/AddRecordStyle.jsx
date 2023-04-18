@@ -7,7 +7,7 @@ export const AddRecordStyle = StyleSheet.create({
     height: "100%",
     backgroundColor: COLORS.DARK_BLUE,
   },
-  view: { alignSelf: "center" },
+  view: { alignSelf: "center", marginLeft:9 },
   textInput: {
     width: 350,
     height: 150,
