@@ -104,7 +104,7 @@ export class Details extends Component {
             </View>
             <View style={DetailStyle.containerDateDetails}>
               <Text style={DetailStyle.textDateDetails}>
-                {this.state.dateConvert?.toLocaleString()}
+                {this.state.dateConvert?.toLocaleString('es-ES')}
               </Text>
             </View>
           </View>

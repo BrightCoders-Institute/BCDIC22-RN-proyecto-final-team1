@@ -83,6 +83,7 @@ export class AddRecord extends Component {
     } catch (error) {
       Alert.alert("Error al agregar reporte");
     }
+    this.setState({ descripcion: "" });
   };
 
   handleMapPress = (event) => {
@@ -92,13 +93,14 @@ export class AddRecord extends Component {
 
   render() {
     const { markerLocation } = this.state;
-    const { image, isLoading } = this.state;
+    const { image, isLoading, descripcion } = this.state;
     return (
       <View>
         <ScrollView style={AddRecordStyle.scroll}>
-          <Headimg ImgUrl={imgHead} Text={`Registro de \n      Daños`} />
+          <Headimg ImgUrl={imgHead} Text={`Registro de \nDaños`} />
           <View style={AddRecordStyle.view}>
             <TextInput
+              multiline={true}
               mode="outlined"
               label="Descripción"
               outlineColor={COLORS.WHITE}
@@ -107,6 +109,7 @@ export class AddRecord extends Component {
               textColor={COLORS.WHITE}
               placeholderTextColor={COLORS.WHITE}
               onChangeText={(text) => this.setState({ descripcion: text })}
+              value={ descripcion }
             />
             <TouchableOpacity
               onPress={this.pickImage}
@@ -119,17 +122,19 @@ export class AddRecord extends Component {
               />
               <Text style={AddRecordStyle.text}>Inserte una imagen</Text>
             </TouchableOpacity>
-            <View style={AddRecordStyle.UploadImgContainer}>
+            
               {isLoading && (
                 <ActivityIndicator size="large" color={COLORS.loaderColor} />
               )}
               {image && (
+              <View style={AddRecordStyle.UploadImgContainer}>
                 <Image
                   source={{ uri: image.uri }}
                   style={AddRecordStyle.UploadImg}
                 />
+                </View>
               )}
-            </View>
+            
             <View style={AddRecordStyle.viewUbi}>
               <Text style={AddRecordStyle.textUbi}>Ubicación</Text>
               <Divider style={AddRecordStyle.divider} />
@@ -155,7 +160,7 @@ export class AddRecord extends Component {
             </MapView>
             <View style={AddRecordStyle.ButtonAdd}>
               <ButtonBlue
-                Text="add report"
+                Text="Agregar reporte"
                 onPress={() => this.uploadImage()}
               />
             </View>

@@ -49,23 +49,21 @@ export class SignUpScreen extends Component {
     });
   }
 
-  createUser = () => {
-    if (this.state.email === "" && this.state.password === "") {
+  createUser = (formikProps) => {
+    if (formikProps.values.email === "" && formikProps.values.password === "") {
       Alert.alert("Ingresar todos los datos necesarios!");
     }
-    createUserWithEmailAndPassword(auth, this.state.email, this.state.password)
+    createUserWithEmailAndPassword(auth, formikProps.values.email, formikProps.values.password)
       .then(async (res) => {
-        console.log(res);
         await createProfile(
           res.user.uid,
-          this.state.email,
-          this.state.name,
-          this.state.hood,
-          this.state.cp
+          formikProps.values.email,
+          formikProps.values.name,
+          formikProps.values.hood,
+          formikProps.values.cp
         );
         Alert.alert("Cuenta creada exitosamente");
         this.props.navigation.navigate("Login");
-        console.log(res);
       })
       .catch((error) => {
         switch (error.code) {
@@ -185,7 +183,7 @@ export class SignUpScreen extends Component {
                   error={formikProps.errors.password}
                 />
                 <View style={SignUpStyle.button}>
-                  <ButtonBlue Text="Crear Cuenta" onPress={this.createUser} />
+                  <ButtonBlue Text="Crear Cuenta" onPress={()=> this.createUser(formikProps)} />
                 </View>
               </View>
             )}
